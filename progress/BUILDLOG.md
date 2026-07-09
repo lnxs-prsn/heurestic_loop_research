@@ -33,3 +33,17 @@ citations partly unverifiable; treated as vision, not evidence.
 
 NEXT: P1.1 (repo scaffold) — but first the owner decides: build here or in a
 dedicated repo (see STATUS open decisions). Any agent resuming: BP-8 ritual.
+
+## 2026-07-09T18:20+03:00 · claude-fable-5 · pi · specs (amendment)
+INTENT: add manual-first verification layer per owner request — user manual,
+user stories wired into acceptance, method update.
+
+OUTCOME: done. MANUAL.md written from specs alone (owner-facing, phase-tagged);
+specs/10-user-stories.md added (US-1..20 + US-RULE-1..3: stories walked live at
+each phase acceptance pass, failure blocks phase completion); 06-phases.md
+acceptance rows P1.11/P2.6/P3.4/P4.3 now reference their stories; 09 gained
+M-15 (manual-before-implementation, stories as acceptance) — appended, no
+renumbering of M-ids. Decision: stories are append-only/stable-numbered and
+verified by walking, never by code reading — keeps the story layer honest as
+a check independent of the implementer's self-report.
+NEXT: unchanged — owner decision on repo location, then P1.1.

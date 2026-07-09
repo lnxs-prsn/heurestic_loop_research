@@ -5,6 +5,7 @@ Format per BP-4. Phases/passes defined in [specs/06-phases.md](../specs/06-phase
 ## Specs
 
 - specs 00–09 — done (initial commit) — full spec set authored and reviewed in planning conversation
+- MANUAL.md + specs/10-user-stories.md — done — manual-first artifact + story verification layer wired into 06 acceptance passes; 09 updated with M-15
 
 ## Phase 1 — Retrieval
 

@@ -29,7 +29,7 @@ all authoring is human/librarian; no proposal tools yet.
 | P1.8 | adapter template + Cline/Claude snippets + kernel injection [AGT-1..7, AGT-9] | P1.6 | P1.9 |
 | P1.9 | seed library (10–20 entries) + kernel v1, owner thumb-through [WF-5] | P1.2 | P1.6, P1.8 |
 | P1.10 | baseline week in `log_only` [WF-8] | P1.6–P1.9 | — |
-| P1.11 | acceptance run: every Phase-1 criterion in specs 02–05, results → BUILDLOG | P1.10 | — |
+| P1.11 | acceptance run: every Phase-1 criterion in specs 02–05 AND Phase-1 user stories walked live ([10](10-user-stories.md) US-1..9, US-RULE-1), results → BUILDLOG | P1.10 | — |
 
 - **PH-1** Phase 1 do-NOT-build: proposal tools, distillation, subagent pattern,
   stats weighting, anything from Phase ≥2. (Signatures for TOOL-9/10 are
@@ -51,7 +51,7 @@ captured. Decision journaled in BUILDLOG.
 | P2.3 | `scripts/distill.py` incl. `--manual` [WF-3] | Phase 1 |
 | P2.4 | subagent orchestration in adapter [AGT-10..12] + reliability test with DeepSeek | Phase 1 |
 | P2.5 | `scripts/stats.py` v1: retrieval/outcome/no-outcome reporting [DM-17, DM-19] | Phase 1 |
-| P2.6 | acceptance: first real proposals through WF-1; subagent flow observed end-to-end | P2.1–P2.5 |
+| P2.6 | acceptance: first real proposals through WF-1; subagent flow observed end-to-end; Phase-2 user stories walked (US-10..14) | P2.1–P2.5 |
 
 P2.1, P2.3, P2.4, P2.5 are mutually ∥ (disjoint files).
 
@@ -70,7 +70,7 @@ review time per WF-2 stays ≤ ~10 min.
 | P3.1 | outcome-weight in ranking, sliding window [TOOL-11] | P2.5 |
 | P3.2 | librarian tooling: cue-overlap linter, dedupe report, staleness report [WF-4 items 2–4] | P2.5 |
 | P3.3 | first full librarian session by capable agent, report in staging [WF-4] | P3.2 |
-| P3.4 | acceptance: weighted ranking beats plain BM25 on spot-checks from logged history | P3.1 |
+| P3.4 | acceptance: weighted ranking beats plain BM25 on spot-checks from logged history; Phase-3 user stories walked (US-15..16) | P3.1 |
 
 - **PH-3** Do-NOT-build: any machine write outside staging; candidate serving.
 
@@ -87,7 +87,7 @@ the signal, but it must agree with the logged numbers.
 |---|---|---|
 | P4.1 | regression gate: `scripts/regress.py` replays logged task summaries with/without candidate via API, diffs retrieval fit + model behavior on a golden set | P3.x |
 | P4.2 | scoped auto-promotion: `kind: technique|user-fact` entries, non-destructive content, passing P4.1 → status `candidate`, served flagged [TOOL-12]; auto-`live` after N clean outcomes; `hurt` → auto-return to staging + gate alert | P4.1 |
-| P4.3 | audit workflow: gate reviews weekly *diff of changes* instead of each item | P4.2 |
+| P4.3 | audit workflow: gate reviews weekly *diff of changes* instead of each item; Phase-4 user stories walked (US-17..18) | P4.2 |
 
 - **PH-4** Hard limits: kernel changes, `model-patch` entries, and anything whose
   body contains shell commands ALWAYS require the human gate. Auto-promotion is

@@ -35,6 +35,16 @@ checklist at the end is the operational summary.
   checklist ("kill the process mid-write; the log contains only complete
   lines"), never an impression. The human gate reviews against criteria, which
   is fast; reviewing against intuition is slow and drifts.
+- **M-15 — Write the user manual before the implementation; derive user
+  stories from it.** (Numbered append-only; added after first use of this
+  method.) The manual, written from the specs alone, is a verification
+  artifact twice over: if a behavior is hard to explain to its user, the
+  design is wrong — fix the spec before the code. Then extract the manual's
+  promises as numbered user stories and wire them into phase/pass acceptance:
+  stories are *walked live*, never verified by reading code, and a
+  technically-green pass that fails its story is not done. Stories catch what
+  unit-level criteria structurally miss — the system being correct but not
+  the thing the user was promised.
 
 ## B. Shape of the work
 
@@ -105,12 +115,14 @@ checklist at the end is the operational summary.
 2. Data model with IDs + log schema (M-10, M-11) — before any behavior spec.
 3. Component specs with numbered requirements, acceptance criteria, non-goals
    (M-1, M-4, M-5).
-4. Phase ladder with graduation signals; decompose each phase into declared
+4. Write the user manual from the specs; extract user stories; wire them into
+   acceptance (M-15). A spec that can't produce its manual isn't finished.
+5. Phase ladder with graduation signals; decompose each phase into declared
    passes (M-6, M-7).
-5. Build-process file: status format, journal protocol, rituals, flight
+6. Build-process file: status format, journal protocol, rituals, flight
    recorder (M-8, M-9).
-6. Expensive-later sweep; put survivors in the constitution (M-12).
-7. Scaffold `progress/` (status + journal) and initialize the VCS **before**
+7. Expensive-later sweep; put survivors in the constitution (M-12).
+8. Scaffold `progress/` (status + journal) and initialize the VCS **before**
    the first line of implementation — the plan living in one agent's context
    window is itself a violation of M-8.
 
