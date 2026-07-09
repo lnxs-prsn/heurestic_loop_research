@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+# Flight recorder lives OUTSIDE the repo (~/.harness/) by design (INV-8) — nothing to ignore here.
+# Machines with log_sync:false exclude their own logs/<machine>.jsonl via .git/info/exclude (DM-18).
