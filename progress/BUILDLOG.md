@@ -47,3 +47,18 @@ renumbering of M-ids. Decision: stories are append-only/stable-numbered and
 verified by walking, never by code reading — keeps the story layer honest as
 a check independent of the implementer's self-report.
 NEXT: unchanged — owner decision on repo location, then P1.1.
+
+## 2026-07-09T19:05+03:00 · claude-fable-5 · pi · specs (amendment)
+INTENT: merge owner-provided update of 09 (root copy 09-how-to-write-specs.md)
+into specs/09 after review.
+
+OUTCOME: done. Adopted M-16 (manual delta classifies change on existing
+systems: extension grows / migration rewords-not-promises / refactor delta
+empty as acceptance criterion) and M-17 (role stories beyond end user;
+maintainer stories never optional; M-4 pruning applies to personas) — both
+judged consistent with the method's voice and M-14. Editorial fixes during
+merge: intro range M-1…M-14 → M-1…M-17 (was stale since M-15), stray blank
+line removed. Checklist step 4 extended per the update. Root copy left in
+place untracked (owner's working copy — owner may delete).
+NEXT: unchanged — owner decision on repo location, then P1.1. Optional
+follow-up: apply M-17 to specs/10 (maintainer/operator story sets).

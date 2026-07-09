@@ -9,8 +9,8 @@ sense: cue + guidance body. Ingest it into the library once the harness runs.
 > quality but not writing the code.
 
 The method has four parts: shape of the **spec**, of the **work**, of the
-**data**, of the **collaboration**. Numbers are principles (M-1…M-14); the
-checklist at the end is the operational summary.
+**data**, of the **collaboration**. Numbers are principles (M-1…M-17,
+numbered append-only); the checklist at the end is the operational summary.
 
 ## A. Shape of the spec
 
@@ -45,6 +45,26 @@ checklist at the end is the operational summary.
   technically-green pass that fails its story is not done. Stories catch what
   unit-level criteria structurally miss — the system being correct but not
   the thing the user was promised.
+- **M-16 — On an existing system, the manual co-evolves; its diff classifies
+  the change.** (Numbered append-only.) Any spec for work on an existing
+  project must state its manual delta up front. An extension grows the manual;
+  a migration may reword operational sections but never promises; a refactor's
+  manual delta is *empty* — and that emptiness is an acceptance criterion
+  (M-5), not an omission. A change whose manual delta cannot be stated isn't
+  understood yet; a "refactor" that needs manual edits is a behavior change
+  traveling under a false name (M-14 applies).
+- **M-17 — Write stories for every role that will touch the system, not only
+  the end user.** (Numbered append-only.) End-user stories (M-15) catch
+  missing value; role stories catch missing qualities: the maintainer
+  extending it, the migrator moving its data, the refactorer needing safe
+  seams, the packager containerizing it, the operator deploying it and reading
+  its logs at 3am. Enumerate the roles the project will actually meet over its
+  life, give each a small numbered story set, and wire them into the same
+  acceptance machinery as user stories. Keep the cast honest: a role the
+  project will never meet earns no stories — M-4 applies to personas too.
+  One role is exempt from that pruning: every project meets its maintainer,
+  so the maintainer's stories are never optional — a system whose maintainer
+  story can't be written is a maintenance nightmare by specification.
 
 ## B. Shape of the work
 
@@ -117,6 +137,9 @@ checklist at the end is the operational summary.
    (M-1, M-4, M-5).
 4. Write the user manual from the specs; extract user stories; wire them into
    acceptance (M-15). A spec that can't produce its manual isn't finished.
+   Enumerate the roles the project will meet and give each its story set
+   (M-17). For work on an existing project, state the manual delta first
+   (M-16).
 5. Phase ladder with graduation signals; decompose each phase into declared
    passes (M-6, M-7).
 6. Build-process file: status format, journal protocol, rituals, flight
