@@ -82,3 +82,19 @@ HANDOFF STATE (complete — any fresh agent resumes from files alone, BP-8):
 - No code exists; no ~/.harness/ exists yet; nothing registered in Cline.
 - Resume ritual: read README.md → specs/00 → specs/01 → progress/STATUS.md →
   this file's tail. Then claim P1.1 in STATUS (BP-3), journal intent, build.
+
+## 2026-07-09T20:00+03:00 · claude-fable-5 · pi · handoff correction
+INTENT: correct the previous handoff's NEXT — owner clarified the next session
+is to SHARPEN the specs, not implement.
+
+OUTCOME: NEXT is now a spec-sharpening pass by a fresh-context agent, BEFORE
+any P1.x work. Scope of that pass: (1) full read of specs 00-10 + MANUAL.md
+with fresh eyes; (2) consistency audit — cross-references, requirement IDs,
+contradictions between files, spec-vs-manual promise mismatches (M-15/M-16);
+(3) implementability audit — ambiguities an implementer would trip on, MUSTs
+without a verifiable check (M-1/M-5), acceptance criteria that can't actually
+be walked; (4) self-conformance audit — score this spec set against its own
+method 09 M-1..M-17 and the 09 checklist; (5) output = findings + proposed
+amendments as diffs for the gate, journaled here (INV-10). Implementation
+remains blocked until the owner closes the sharpening pass and the repo-
+location decision.
