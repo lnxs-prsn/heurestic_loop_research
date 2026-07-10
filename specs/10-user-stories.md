@@ -66,6 +66,26 @@ and still fail its story, and then it is NOT done.
   outcome, auto-returned to staging, and I am alerted — and I can revoke
   autonomy with one config flag.
 
+## Role stories (M-17) — maintainer verified at P1.11, operator at P1.11/P3.4
+
+Roles this project meets: owner-as-user (US-1..18), gate (US-12, 17, 18),
+maintainer, operator. No others — M-4 pruning applies to personas.
+
+- **US-21** As a maintainer, I can add a new MCP tool touching only the server
+  tool layer — ranking, logging, and redaction code stay unmodified. Walked at
+  P1.11 by adding a stub tool on a scratch branch.
+- **US-22** As a maintainer, I can swap the ranker behind its interface (BM25 →
+  anything) without touching tool code. Walked at P1.11 with a test double;
+  paid off for real at P3.1/P5.5.
+- **US-23** As a maintainer arriving cold, the BP-8 ritual plus specs let me
+  find the code responsible for any given logged event in ≤ 10 minutes.
+- **US-24** As an operator, I can diagnose a retrieval misbehavior from
+  `scripts/stats.py` and the logs alone (candidates, scores, scope filters
+  applied) — no print statements, no code edits.
+- **US-25** As an operator, failure modes are visible, never silent: a
+  malformed library file is skipped with a report and flight-recorded; the
+  server does not crash (SRV-7).
+
 ## Build-process stories — verified at BP-13 drill (any phase)
 
 - **US-19** As the owner, after a power cut mid-build, any fresh agent resumes

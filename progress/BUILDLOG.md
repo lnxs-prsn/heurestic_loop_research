@@ -62,3 +62,23 @@ line removed. Checklist step 4 extended per the update. Root copy left in
 place untracked (owner's working copy — owner may delete).
 NEXT: unchanged — owner decision on repo location, then P1.1. Optional
 follow-up: apply M-17 to specs/10 (maintainer/operator story sets).
+
+## 2026-07-09T19:40+03:00 · claude-fable-5 · pi · specs (amendment) + SESSION HANDOFF
+INTENT: apply M-17 to specs/10 (role stories), then hand off — planning
+session context exhausted.
+
+OUTCOME: done. specs/10 gained role stories US-21..25 (maintainer ×3,
+operator ×2; persona cast pruned per M-17/M-4); 06 P1.11 acceptance row now
+includes them.
+
+HANDOFF STATE (complete — any fresh agent resumes from files alone, BP-8):
+- Specs 00–10 + MANUAL.md: complete and internally consistent. Method file
+  09 at M-17 (synced with owner's spec-driven-ai-projects skill).
+- Implementation: NOT STARTED. Next work = P1.1 (repo scaffold), blocked only
+  on owner decision: build in this repo vs dedicated ~/heuristic-harness
+  (see STATUS open decisions; this session recommended: this repo).
+- Untracked root file 09-how-to-write-specs.md is the owner's working copy,
+  redundant with specs/09 — owner may delete, agents leave it alone.
+- No code exists; no ~/.harness/ exists yet; nothing registered in Cline.
+- Resume ritual: read README.md → specs/00 → specs/01 → progress/STATUS.md →
+  this file's tail. Then claim P1.1 in STATUS (BP-3), journal intent, build.

@@ -29,7 +29,7 @@ all authoring is human/librarian; no proposal tools yet.
 | P1.8 | adapter template + Cline/Claude snippets + kernel injection [AGT-1..7, AGT-9] | P1.6 | P1.9 |
 | P1.9 | seed library (10–20 entries) + kernel v1, owner thumb-through [WF-5] | P1.2 | P1.6, P1.8 |
 | P1.10 | baseline week in `log_only` [WF-8] | P1.6–P1.9 | — |
-| P1.11 | acceptance run: every Phase-1 criterion in specs 02–05 AND Phase-1 user stories walked live ([10](10-user-stories.md) US-1..9, US-RULE-1), results → BUILDLOG | P1.10 | — |
+| P1.11 | acceptance run: every Phase-1 criterion in specs 02–05 AND Phase-1 user stories walked live ([10](10-user-stories.md) US-1..9 + role stories US-21..25, US-RULE-1), results → BUILDLOG | P1.10 | — |
 
 - **PH-1** Phase 1 do-NOT-build: proposal tools, distillation, subagent pattern,
   stats weighting, anything from Phase ≥2. (Signatures for TOOL-9/10 are
