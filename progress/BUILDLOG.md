@@ -98,3 +98,122 @@ method 09 M-1..M-17 and the 09 checklist; (5) output = findings + proposed
 amendments as diffs for the gate, journaled here (INV-10). Implementation
 remains blocked until the owner closes the sharpening pass and the repo-
 location decision.
+
+## 2026-07-10T14:55+03:00 · claude-fable-5 · pi · spec-sharpening pass (INV-10, per 2026-07-09T20:00 mandate)
+INTENT: execute the sharpening pass — full fresh read of specs 00-10 +
+MANUAL.md done; now writing findings + proposed amendments as diffs to
+spec_sharpening_2026-07-10.md (repo root, untracked — gate review material,
+INV-10). No spec file will be modified; no implementation. Will also assess
+owner-provided findings_report.md (persona-heuristics proposal) at owner
+request; assessment delivered in-session, summary journaled here.
+
+## 2026-07-10T15:05+03:00 · claude-fable-5 · pi · spec-sharpening pass — OUTCOME
+OUTCOME: done. Findings + proposed diffs in spec_sharpening_2026-07-10.md
+(repo root, untracked — gate review material per INV-10; no spec file was
+modified). 15 findings: 5 major implementability gaps (F-1 agent/model
+identity has no channel to the server; F-2 log_outcome/log_lesson lack the
+mandatory `project` field; F-3 DM-17 retrieval↔outcome join undefined; F-4
+`git mv` cannot promote untracked staging files — WF-1/MANUAL both broken;
+F-5 US-24 needs stats.py (P2.5) but is scheduled at P1.11), 4 medium (F-6
+server/ vs harness package name; F-7 "expensive-later item #N" cites a list
+absent from specs; F-8 PH-6 literally forbids spec work + BP-13 drill is
+pass-less; F-9 TOOL-3 threshold homeless), 6 minor. Self-conformance vs 09:
+strong — M-8 demonstrably holds (this pass cold-started from files alone);
+sole M-14 violation is F-8. Recommended order: F-1/F-2/F-6 before P1.1.
+
+Also assessed owner-provided findings_report.md (persona-heuristics
+proposal) at owner request: recommend NOT adopting as-is — Finding 3
+misreads the data model (attacks `domain_tags`/`summary` fields that don't
+exist in 02); persona/strain frontmatter now would violate 02 Do-NOT-build
+and the trust-ladder method. Salvage: (a) short prior-art note in 00
+(overlap with Cline rules/skills — fair point, matches assess_idea.md),
+(b) persona-voiced BODIES for 2-3 of the P1.9 seed heuristics as a free
+experiment inside the existing schema, judged later from outcome logs.
+Full reasoning delivered to owner in-session.
+
+DIRTY STATE (BP-9, intentional): spec_sharpening_2026-07-10.md untracked
+(awaiting gate); BUILDLOG modified (these two entries); owner files
+assess_idea.md, feature1_spec_story.md, findings_report.md untracked
+(owner's, agents leave alone). Nothing committed — owner did not request
+commits; gate commits accepted amendments with rationale per INV-10.
+NEXT: gate reviews sharpening findings + repo-location decision; then P1.1.
+
+## 2026-07-10T15:40+03:00 · claude-fable-5 · pi · persona-spec experiment (owner-directed)
+INTENT: owner directs (a) a persona rendering of the spec set in the style of
+feature1_spec_story.md incl. user-story layer → specs_persona_story.md, and
+(b) an A/B test of dry vs persona format run by the owner in fresh Cline
+sessions → persona_test_cline.md (two paste-ready packets over specs 02+03+04:
+dry verbatim vs persona voice-only transform WITHOUT gap confessions, plus a
+grading key of 7 seeded defects from spec_sharpening_2026-07-10.md). Both
+files repo root, untracked — experiment material, not spec changes (INV-10
+untouched). Rationale journaled: the confessional story cannot double as test
+material (it contains the answer key), hence two artifacts.
+
+## 2026-07-10T16:05+03:00 · claude-fable-5 · pi · persona-spec experiment — OUTCOME
+OUTCOME: done. Two artifacts, repo root, untracked (experiment material, no
+spec touched): specs_persona_story.md — full spec set narrated first-person
+per the feature1_spec_story.md format, user-story layer woven in, confessions
+[H-1..H-9] mapped 1:1 to sharpening findings F-1..F-9; persona_test_cline.md
+— A/B packets for owner-run test in fresh Cline sessions (Packet A: dry specs
+02+03+04 verbatim; Packet B: same content voice-transformed, all IDs kept,
+NO confessions; identical audit prompt; grading key = 7 seeded defects F-1,
+F-2, F-3, F-7, F-9, F-10, F-13). Decision: story and test material split into
+two artifacts because a confessional story contains the answer key.
+Known bias journaled: packet B was written by the same agent that found the
+seeded defects; mitigation = voice-only transform rule + owner may diff-read.
+DIRTY STATE (BP-9): both new files + spec_sharpening_2026-07-10.md untracked;
+BUILDLOG modified. Nothing committed (owner has not requested commits).
+NEXT: owner runs packets in Cline (2×A, 2×B, empty folder, NOT this repo),
+returns outputs for grading; separately: gate review of sharpening findings
++ repo-location decision still open.
+
+## 2026-07-10T17:30+03:00 · claude-fable-5 · pi · persona A/B test — first results graded
+OUTCOME: owner ran one Cline session per packet (n=1 each; second runs still
+recommended). Seeded-defect recall (key of 7): dry packet A = 2/7 (F-3, F-13);
+persona packet B = 3/7 (F-3, F-9, F-13). Both missed F-1, F-2, F-7, F-10.
+Finding volume: A = 11, B = 19; precision comparable (B chattier, not
+noisier). Meta-result: runs surfaced two REAL defects the sharpening audit
+missed — F-16 (kernel-update proposals have no producing tool despite
+"kind":"kernel" event in schema; dry run) and F-17 (status: candidate not in
+DM-7 enum; persona run), plus minor F-18 (AGT-10 15% formula) — appended to
+spec_sharpening_2026-07-10.md addendum with diffs. Interpretation journaled:
+directional support for persona format (more seeded + more true unseeded
+findings incl. best single catch), NOT conclusive — single run, and B's
+higher volume confounds recall. Result files: defects_report.md (A),
+defects_packet_B.md (B), owner-provided, untracked.
+NEXT: optional runs A2/B2 for variance; gate review of sharpening findings
+(now F-1..F-18) + repo location still open.
+
+## 2026-07-10T18:00+03:00 · claude-fable-5 · pi · persona experiment closed (owner decision)
+OUTCOME: owner accepts persona format on round-1 evidence + external
+corroboration (own tests in other projects, incl. a Fable session reaching
+the same conclusion); no further test runs — token budget. Proposed M-18
+(persona rendering = comprehension/audit layer over numbered specs, never
+normative) appended to spec_sharpening_2026-07-10.md as F-19, awaiting gate
+with F-1..F-18. specs_persona_story.md stands as the first M-18 artifact;
+it must be regenerated/marked stale when specs change.
+NEXT: gate review of F-1..F-19 diffs + repo-location decision; then P1.1.
+
+## 2026-07-10T18:30+03:00 · claude-fable-5 · pi · specs/09 amendment (INV-10, owner-directed)
+M-18 added to specs/09 (persona rendering as defect-finding audit layer,
+never normative text); intro range M-1…M-17 → M-1…M-18. F-19 in the
+sharpening file marked applied. Evidence base: this project's A/B run +
+owner's external tests. Uncommitted (owner commits per gate discipline).
+
+## 2026-07-10T18:50+03:00 · claude-fable-5 · pi · specs/05 amendment (INV-10, owner-directed)
+WF-5a added: seed library embeds persona-vs-dry body comparison and
+strain-as-tag retrieval comparison; answered by normal outcome/retrieval
+logs, reported by librarian, judged at Phase-2 graduation. No schema change.
+Uncommitted.
+
+## 2026-07-10T19:15+03:00 · claude-fable-5 · pi · specs/08+09 amendment (INV-10, owner-directed)
+BP-14 (progress/HANDOFF.md trust cache: bounded, rewritten, evidenced
+"do-not-re-check" list; stale-on-change; STATUS/BUILDLOG win conflicts) +
+BP-8/BP-9 wired to it; M-19 added to 09 (method-level). First HANDOFF.md
+written for current state. Uncommitted.
+
+## 2026-07-10T20:00+03:00 · claude-fable-5 · pi · owner decisions
+Repo location DECIDED: ~/Desktop/python/portfolio_projects/heurestic_harness
+(dedicated repo; spelling as owner wrote it — flag before scaffold, names
+freeze). F-1..F-18 application pending: owner requested plain-language
+impact walkthrough before choosing; delivered in-session.

@@ -53,6 +53,18 @@ thumb-through ("yes / no / almost"), NOT by asking the owner to enumerate pain
 points (tacit-knowledge principle, [00](00-overview.md)). Kernel v1 is drafted
 the same way (≤15 lines, DM-10).
 
+- **WF-5a — Format experiment embedded in the seed (no new machinery).** The
+  seed library carries two comparisons the normal logs will answer as a side
+  effect of use: (a) *personification* — 2–4 seed entries get persona-voiced
+  bodies ("I wince at gcc in build logs…"), the rest stay dry; `outcome`
+  events per entry accumulate the comparison; (b) *stereotyping* — every seed
+  entry includes its archetype/strain as an ordinary tag (e.g.
+  `tags: [frugal, …]`), which joins the BM25 surface (TOOL-2); retrieval
+  events (DM-14, all candidates with scores) show whether strain tokens ever
+  contribute to matches or the cues do all the work. Librarian sessions
+  (WF-4 item 6) report on both; judged at Phase-2 graduation. Existing
+  schema only — no new frontmatter fields (DM Do-NOT-build stands).
+
 ## WF-6 — Multi-machine sync
 
 - New machine: clone repo, install server (pip), write `~/.harness/config.yaml`

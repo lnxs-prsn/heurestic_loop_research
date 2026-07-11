@@ -48,15 +48,32 @@ cut, a rate limit, or a model swap.
 - **BP-7** Spec/reality conflicts are journaled here and resolved explicitly
   (INV-10), never patched around silently.
 
+## progress/HANDOFF.md — the trust cache (don't re-derive the verified)
+
+- **BP-14** `progress/HANDOFF.md` is a bounded snapshot (≤ ~40 lines),
+  REWRITTEN — not appended — at every session end. Contents: current state in
+  ≤3 lines; a "verified — do not re-check" list where every claim carries its
+  evidence (commit hash, BUILDLOG timestamp, or acceptance-run reference);
+  the 2–3 files the next task actually needs to read; open questions. Rules:
+  a claim whose evidence predates a later change to the files it covers is
+  stale and void; a fresh agent re-verifies only what its own pass touches
+  plus one spot-check of the list; HANDOFF is a derived view over STATUS +
+  BUILDLOG (INV-1 spirit — rebuildable from them), and when they disagree,
+  STATUS/BUILDLOG win. Purpose: no agent burns context re-confirming what a
+  previous agent already confirmed with evidence.
+
 ## Session protocol (every agent, every session)
 
 - **BP-8 — Start ritual:** read [00](00-overview.md) → [01](01-invariants.md) →
   STATUS.md → BUILDLOG tail (≥ last 3 entries). Then claim a pass (BP-3) and
   journal intent (BP-5). Four reads = complete onboarding; needing more context
-  than the files provide is a bug in the files — fix the files.
+  than the files provide is a bug in the files — fix the files. When
+  HANDOFF.md (BP-14) is current, it substitutes for any wider re-reading or
+  re-verification of the repo: trust its evidenced claims, re-check only what
+  your pass touches.
 - **BP-9 — End ritual:** tree clean (committed) or the exact dirty state
-  journaled with reasons; STATUS updated; outcome entry written; push if remote
-  configured. Rate-limited mid-pass: journal state immediately — the next agent
+  journaled with reasons; STATUS updated; outcome entry written; HANDOFF.md
+  rewritten (BP-14); push if remote configured. Rate-limited mid-pass: journal state immediately — the next agent
   (or model) resumes from the journal, not from memory.
 
 ## Commits

@@ -9,7 +9,7 @@ sense: cue + guidance body. Ingest it into the library once the harness runs.
 > quality but not writing the code.
 
 The method has four parts: shape of the **spec**, of the **work**, of the
-**data**, of the **collaboration**. Numbers are principles (M-1…M-17,
+**data**, of the **collaboration**. Numbers are principles (M-1…M-19,
 numbered append-only); the checklist at the end is the operational summary.
 
 ## A. Shape of the spec
@@ -65,6 +65,30 @@ numbered append-only); the checklist at the end is the operational summary.
   One role is exempt from that pruning: every project meets its maintainer,
   so the maintainer's stories are never optional — a system whose maintainer
   story can't be written is a maintenance nightmare by specification.
+- **M-18 — Render the spec as a first-person persona to find defects dry
+  reading misses.** (Numbered append-only.) Have the system narrate its own
+  pipeline — "I am the X; a task arrives; I do…" — citing its requirement IDs
+  at every step and stopping to confess wherever it does not actually know
+  what it is supposed to do. Each confession is an audit finding (M-5,
+  journaled per the constitution's change discipline). Two effects, both
+  observed: *writing* the story surfaces gaps the way M-15's manual does,
+  and *fresh readers* find more real defects in persona form than in dry
+  form (measured on this project's own specs: 3/7 vs 2/7 seeded defects,
+  plus the sharpest unseeded catch). Limits: the persona text is a derived
+  layer, never the normative spec — numbered files keep what is load-bearing
+  (auditability, surgical diffs, stable references; M-1) — and it MUST be
+  regenerated or marked stale whenever the specs change.
+- **M-19 — Cache the onboarding: a bounded handoff snapshot beside the
+  journal.** (Numbered append-only.) M-8's journal is append-only truth and
+  grows forever; a fresh session should not re-derive current state from it,
+  nor re-verify what a predecessor verified. Keep one small file (≤ ~40
+  lines), REWRITTEN at each session end: state in ≤3 lines, a "verified — do
+  not re-check" list where every claim carries evidence (commit hash, journal
+  ref), the few files the next task needs, open questions. Trust rules make
+  it safe: unevidenced claims are void, claims older than the files they
+  cover are stale, the journal wins on conflict, and each agent still
+  re-verifies whatever its own work touches. The snapshot is a derived view
+  (M-10), rebuildable from status + journal.
 
 ## B. Shape of the work
 
