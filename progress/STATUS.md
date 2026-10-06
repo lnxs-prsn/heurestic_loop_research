@@ -25,7 +25,15 @@ Format per BP-4. Phases/passes defined in [specs/06-phases.md](../specs/06-phase
 
 Not started. See specs/06-phases.md. Graduation from Phase 1 not yet possible (no usage data).
 
+## Process
+
+- Handoff system (specs/08 BP-15..BP-21) — done (10ee803) — owner-approved commit 2026-10-06 (D-9, D-11; BUILDLOG@2026-10-05T17:05+03:00)
+- Human coherence trial (incubating/human-coherence-intent-anchoring, coherence/) — in-progress (claude-opus-5-5, pi, 2026-10-06) — re-entry RE-1 closed, intent INT-4 confirmed (SIT-1); nine findings not yet folded into the pattern spec; pattern committed 46f2708 (BUILDLOG@2026-10-06T13:55+03:00)
+
 ## Open decisions (owner)
 
-- Final location of the harness repo (this repo vs. dedicated `~/heuristic-harness`) — decide at P1.1.
-- License choice (MIT vs Apache-2.0) — required only before first external contribution (FUT-1).
+Owner decisions live in [decisions.md](decisions.md) (BP-15); this list only points.
+
+- ~~Final location of the harness repo~~ — decided: D-5.
+pending_decisions: D-6, D-8, D-10
+- License choice (MIT vs Apache-2.0) — required only before first external contribution (FUT-1); not yet a ledger entry.

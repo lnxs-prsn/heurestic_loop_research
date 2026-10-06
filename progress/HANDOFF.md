@@ -1,26 +1,41 @@
-# HANDOFF (BP-14) — rewritten each session end · this version: 2026-07-10, claude-fable-5
+# HANDOFF (BP-14, BP-18) — rewritten each session end
+as_of: 2026-10-06T14:45+03:00
+verified_at: 6a20659
+written_by: claude-opus-5-5 · pi
+pending_decisions: D-6, D-8, D-10
 
-STATE: specs 00-10 + MANUAL sharpened and amended (M-18, M-19, WF-5a, BP-14);
-implementation NOT started; P1.1 blocked on owner's repo-location decision
-and gate review of spec_sharpening_2026-07-10.md (F-1..F-18 diffs pending).
+STATE: project resumed after the Jul–Oct hiatus. Owner re-entry done
+(coherence/reentry/RE-1.md): intent INT-4 confirmed (SIT-1) — kept, grown by
+additions, road unchanged. Next stop on the road: D-6 design fixes, then
+P1.1 in the dedicated repo (D-5). Implementation NOT started. Work of
+2026-10-05/06 committed on owner's order (10ee803, 46f2708, + re-entry
+commit); not pushed. innovations/ left untracked (D-8).
 
 VERIFIED — do not re-check (evidence in parentheses):
-- Specs 00-10 + MANUAL fully audited for consistency/implementability/
-  self-conformance; all known defects are F-1..F-18 in
-  spec_sharpening_2026-07-10.md (BUILDLOG 2026-07-10T15:05 + 17:30).
-- Persona format beats dry for defect-finding on these specs, 3/7 vs 2/7
-  seeded; adopted as M-18 (BUILDLOG 2026-07-10T17:30, 18:30).
-- specs_persona_story.md matches specs as of 2026-07-10; stale after any
-  spec change (M-18).
-- Owner decisions on record: persona adopted; heuristic-level persona/strain
-  deferred to WF-5a seed experiment, judged at Phase-2 graduation
-  (BUILDLOG 18:00, 18:50).
+- Current intent: heuristics outside the model, grown in layers (individual
+  heuristics → stacks/personas → learning → rule-making → person); now =
+  layer 1, the July Harness design (coherence/intent.md INT-4; D-7).
+- Hiatus material I-1..I-5 read in full, processed; nothing competes with
+  the specs; it describes later layers (RE-1; D-7). I-6 (post-hiatus
+  landscape survey) registered and HELD by owner: do not process yet.
+- Two additions for layer-1 design work: leave room in the file format for
+  stacks, personas, run traces, scope; irrelevant-information management
+  starts in layer 1 (RE-1 §Drift check).
+- Handoff system BP-15..BP-21 built, preflight 17 self-tests green (D-9,
+  D-11). Agent-loop planning: no decision needed (RE-1 §Resolutions).
+- Repo location decided (D-5); target dir not yet created. F-1..F-18 exist
+  with diffs, none applied (spec_sharpening_2026-07-10.md; D-6).
 
-READ FOR NEXT TASK (P1.1, once unblocked): specs/02 (layout — note F-6
-harness/ vs server/ naming, undecided), specs/03 (SRV-2 config), MANUAL
-setup section. Nothing else needed beyond BP-8's four reads.
+OWNER-SIDE PATTERN: incubating/human-coherence-intent-anchoring/ (PATTERN +
+kit). First trial complete; its nine findings are recorded in RE-1 §Trial
+outcome and PATTERN.md "Proven in" but NOT yet folded into kit/SPEC.md
+(banner says so). Major: HC-24 restate → "agent drafts, owner confirms";
+involve the owner only on significant intent change or road deviation.
 
-OPEN QUESTIONS (owner): repo location (here vs ~/heuristic-harness);
-F-1..F-18 diffs approve/reject; whether to commit current amendments +
-delete disposable test files (persona_test_cline.md, test_packet_*.txt,
-defects_*.md).
+READ FOR NEXT TASK: run scripts/preflight.py. Then either (a) fold the
+trial findings into kit/SPEC.md (+ OWNER_GUIDE, design record untouched), or
+(b) D-6 with the owner: spec_sharpening_2026-07-10.md, specs/02, specs/03,
+keeping INT-4's layer-1 additions in view. Owner chooses.
+
+OPEN QUESTIONS (owner): the pending_decisions line above; license (FUT-1)
+not yet a ledger entry; whether to push.
