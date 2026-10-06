@@ -613,3 +613,10 @@ asking; push stays the owner's act. Preflight measures HANDOFF freshness
 from the last commit that rewrote HANDOFF (BP-19 text amended), so
 commit-after-every-change doesn't make it permanently stale; 27 self-tests
 (2 new). HANDOFF FIRST ACT: "dirty tree" now signals an interrupted session.
+
+## 2026-10-06T15:00+03:00 · claude-opus-5-5 · pi · intake: Bungay *Art of Action* insights
+INTENT: owner dropped "bungay_art_of_action_book_insights copy.md" ("it might
+be of use to us"). Will register it as I-7 (BP-20), digest it against INT-4
+and the open question "did RE-1 match hiatus insights to the July design?",
+and report. Not hiatus material (HC-38), so it does not reopen RE-1.
+Registering is not adopting; nothing applied.

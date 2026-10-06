@@ -247,3 +247,31 @@ hurt accuracy.
 layer on an existing base (SKILL.md format, Letta or cognee); C question-fit
 check first; D person-defined helpfulness first (B combines with C or D);
 seven open questions for the owner.
+
+## I-7 — bungay_art_of_action_book_insights copy.md
+status: digested
+date: 2026-10-06
+received: 2026-10-06
+source: owner, notes from Stephen Bungay's book *The Art of Action* adapted to agentic workflows (another conversation; the agentic mappings are the writer's adaptation, the book does not discuss agents)
+file: insights_from_other_conversations/bungay_art_of_action_book_insights copy.md
+affects: none
+evidence: BUILDLOG@2026-10-06T15:00+03:00
+stages: ST-3, ST-4
+impact: route-only
+
+Owner's note: "it might be of use to us". Post-resumption material, outside
+RE-1's input window (HC-38); offered for use, not held.
+**What:** three gaps between plan, action and outcome (knowledge, alignment,
+effects); intent = what + why, never how; nested intent ("every layer's why
+is the what of the layer above", know the intent two levels up); brief →
+backbrief → execute within boundaries → judge effects against intent, not
+plan → findings go up and the changed level re-briefs everything below it;
+escalation table; eight failure modes; warning that more information, more
+detailed instructions and more controls widen the gaps.
+**Why:** plans break on contact with reality; a clear why lets each level adapt.
+**How (for this project):** (1) names the gap found in RE-1: the intent level
+changed (INT-4), but the level below (specs, flaws F-1..F-18) was never
+re-briefed; (2) candidate checks for the coherence kit and handoff
+(main effort, boundaries, success sign as a check; EXPECTED OPENING works
+like a backbrief); (3) the first worked instance of "heuristics from books"
+(I-4 §3): its escalation table and checklists are library-ready content.
