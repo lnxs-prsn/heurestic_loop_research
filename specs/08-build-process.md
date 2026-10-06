@@ -44,7 +44,9 @@ cut, a rate limit, or a model swap.
   (kill-test passed). Next: P1.6 or P1.5 free for parallel pickup.
   ```
   Decisions and their *reasons* are mandatory content — decisions are the
-  expensive thing to reconstruct.
+  expensive thing to reconstruct. This covers implementation-level decisions
+  (how a pass was done). Owner-level decisions live in the ledger (BP-15);
+  the BUILDLOG entry cites their `D-<n>` and serves as their evidence.
 - **BP-7** Spec/reality conflicts are journaled here and resolved explicitly
   (INV-10), never patched around silently.
 
@@ -58,22 +60,97 @@ cut, a rate limit, or a model swap.
   a claim whose evidence predates a later change to the files it covers is
   stale and void; a fresh agent re-verifies only what its own pass touches
   plus one spot-check of the list; HANDOFF is a derived view over STATUS +
-  BUILDLOG (INV-1 spirit — rebuildable from them), and when they disagree,
-  STATUS/BUILDLOG win. Purpose: no agent burns context re-confirming what a
+  BUILDLOG + decisions.md (INV-1 spirit — rebuildable from them), and when
+  they disagree, those files win, each for what it owns: STATUS for pass
+  state, BUILDLOG for what happened, decisions.md for owner decisions
+  (BP-15). Purpose: no agent burns context re-confirming what a
   previous agent already confirmed with evidence.
+
+## Records, decisions, intake — the defensive layer
+
+Owner directive (D-9): design the handoff layer so that a later RAG/graph
+layer is a *derived view* over it (INV-1), never a migration of it. The cheap
+moment to give records stable IDs and typed links is before there are many.
+
+- **BP-15 — Decision ledger.** `progress/decisions.md` is the single home of
+  owner-level decisions (taste, money, autonomy, scope, hard-to-reverse),
+  IDs `D-<n>`, append-only. An agent whose work triggers one writes a
+  `proposed` entry (essence / analogy / impact + reversibility / what the
+  architecture points at / lettered options with a default) and STOPS; only
+  an explicit owner answer unblocks. A decision recorded only in BUILDLOG
+  prose is not yet a decision of record — the BUILDLOG entry is its evidence.
+  STATUS and HANDOFF cite decisions by `D-<n>`, never restate them.
+- **BP-16 — Agent entry pointers.** `AGENTS.md` at the repo root is the one
+  canonical entry file; per-tool auto-loaded files (`CLAUDE.md`, …) are thin
+  pointers to it and MUST NOT carry their own rules. Its content is the start
+  ritual (BP-8), nothing project-descriptive.
+- **BP-17 — Record format and reference grammar.** A *record* is a markdown
+  heading carrying a stable ID, immediately followed by `key: value` field
+  lines, then free prose. Record types today: decisions `D-<n>`, intake
+  `I-<n>`, BUILDLOG entries (ID = `BUILDLOG@<heading timestamp>`).
+  References anywhere in records use one grammar: requirement IDs
+  (`INV-n`, `BP-n`, `DM-n`, `M-n`, `US-n`, `WF-5a`, …), passes (`P1.4`),
+  decisions (`D-n`), intake (`I-n`), sharpening findings (`F-n`), BUILDLOG
+  entries (`BUILDLOG@<ts>`), commits (≥7 hex), and repo-relative paths.
+  Reference fields are typed edges (`supersedes`, `superseded_by`, `affects`,
+  `evidence`); every reference MUST resolve. New record types are added by
+  declaration only (one entry in preflight's type registry + this
+  requirement's list) — if a new type needs parser changes beyond that, the
+  format leaked. `scripts/preflight.py --export` emits the derived
+  nodes/edges JSON; it is never committed as truth.
+- **BP-18 — Handoff truthfulness** (extends BP-14). Update triggers:
+  (a) you changed state a cold session needs; (b) you FOUND a stale or false
+  claim in HANDOFF or any doc it points to — record it even if you changed
+  nothing else. Verify-before-repeat: every claim carried into HANDOFF is
+  re-checked against its authoritative file at that moment and cites it in
+  BP-17 grammar. HANDOFF's first lines carry `as_of:` (ISO ts) and
+  `verified_at:` (commit hash) fields.
+- **BP-19 — Machine enforcement.** `scripts/preflight.py` (stdlib) runs at
+  session start and before session end. GATES (exit 1): any record fails to
+  parse, a reference does not resolve, a decision's fields are inconsistent.
+  WARNS (exit 0): dirty tree (listing paths — BP-9 permits journaled dirty
+  state), files unregistered under BP-20, HANDOFF `as_of` older than the
+  newest BUILDLOG entry, commits since `verified_at` touching specs/ or
+  progress/, pending `proposed` decisions, commit hook inactive. Also GATES:
+  STATUS and HANDOFF each carry one `pending_decisions:` line (comma-
+  separated `D-<n>`, or `none`), and it must equal the ledger's `proposed`
+  set exactly. That catches both a stale "still pending" claim about an
+  answered decision (the failure BP-18 exists to prevent) and a pending
+  decision nobody mentions. Prose elsewhere cites decisions but does not
+  claim their status. Every
+  failure prints a REMEDY. Its self-tests (`scripts/test_preflight.py`) plant
+  each defect and require it be caught. `.githooks/commit-msg` enforces the
+  BP-10 format; activation is D-10. Enforcers change in the same sitting as
+  the rule they enforce.
+- **BP-20 — Intake of outside material.** Material from other conversations
+  or projects lands in `insights_from_other_conversations/` and gets an `I-<n>`
+  record in its `INDEX.md` the session it is first seen. Registering is not
+  adopting: adoption is a `D-<n>` decision linked via `affects:`.
+- **BP-21 — Direction file.** `DIRECTION.md` at the root owns one fact: what
+  this project is building right now and which inputs are under
+  consideration. It carries no status and no history (STATUS, BUILDLOG and
+  decisions own those); it changes only alongside a `D-<n>` entry. Rationale
+  (handoff-discipline evidence from other projects): a fact with no owning
+  file migrates into the handoff and regrows it indefinitely — before
+  compacting anything, ask what fact has no home.
 
 ## Session protocol (every agent, every session)
 
-- **BP-8 — Start ritual:** read [00](00-overview.md) → [01](01-invariants.md) →
+- **BP-8 — Start ritual:** run `python3 scripts/preflight.py` (BP-19; a gate
+  failure is fixed or journaled before anything else) → read
+  [00](00-overview.md) → [01](01-invariants.md) → DIRECTION.md (BP-21) →
   STATUS.md → BUILDLOG tail (≥ last 3 entries). Then claim a pass (BP-3) and
-  journal intent (BP-5). Four reads = complete onboarding; needing more context
+  journal intent (BP-5). Preflight plus these five reads = complete
+  onboarding; needing more context
   than the files provide is a bug in the files — fix the files. When
   HANDOFF.md (BP-14) is current, it substitutes for any wider re-reading or
   re-verification of the repo: trust its evidenced claims, re-check only what
   your pass touches.
 - **BP-9 — End ritual:** tree clean (committed) or the exact dirty state
-  journaled with reasons; STATUS updated; outcome entry written; HANDOFF.md
-  rewritten (BP-14); push if remote configured. Rate-limited mid-pass: journal state immediately — the next agent
+  journaled with reasons; STATUS updated; outcome entry written; new owner
+  decisions in the ledger (BP-15), new outside material registered (BP-20);
+  HANDOFF.md rewritten (BP-14, BP-18); preflight run, gates green;
+  push if remote configured. Rate-limited mid-pass: journal state immediately — the next agent
   (or model) resumes from the journal, not from memory.
 
 ## Commits
@@ -106,5 +183,8 @@ cut, a rate limit, or a model swap.
 
 - No progress tracking in agent memory, IDE state, or todo tools as sole store (INV-7).
 - No BUILDLOG editing — corrections are new entries.
+- No editing an answered decision — supersede it with a new `D-<n>` (BP-15).
+- No derived index, embedding store, or graph file committed as truth — they
+  are rebuilt from records on demand (BP-17, INV-1; vectors still gated by 01).
 - No pass work without a STATUS claim commit (BP-3) when more than one agent
   may be active.
