@@ -527,3 +527,9 @@ OUTCOME: owner ordered the commit = gate passed for the 2026-10-05/06 work.
 design record; next commit: re-entry (coherence/, intake material +
 INDEX, DIRECTION.md, progress/). innovations/ left untracked (D-8). Not
 pushed. Handoff system marked done in STATUS (BP-4).
+
+## 2026-10-06T15:00+03:00 · claude-opus-5-5 · pi · D-8 decided; innovations/ committed
+OUTCOME: owner: "local innovations/ belongs to this project so it too gets
+committed". D-8 accepted (A, as the project's own copy, not a vendored
+snapshot). innovations/ (34 files, plain folder, no nested repo, secret scan
+clean) committed with the ledger update. pending_decisions: D-6, D-10.

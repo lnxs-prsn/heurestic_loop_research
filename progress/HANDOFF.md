@@ -1,15 +1,16 @@
 # HANDOFF (BP-14, BP-18) — rewritten each session end
-as_of: 2026-10-06T14:45+03:00
+as_of: 2026-10-06T15:00+03:00
 verified_at: 3bbbe36
 written_by: claude-opus-5-5 · pi
-pending_decisions: D-6, D-8, D-10
+pending_decisions: D-6, D-10
 
 STATE: project resumed after the Jul–Oct hiatus. Owner re-entry done
 (coherence/reentry/RE-1.md): intent INT-4 confirmed (SIT-1) — kept, grown by
 additions, road unchanged. Next stop on the road: D-6 design fixes, then
 P1.1 in the dedicated repo (D-5). Implementation NOT started. Work of
 2026-10-05/06 committed on owner's order (10ee803, 46f2708, + re-entry
-commit 3bbbe36); not pushed. innovations/ left untracked (D-8).
+commit 3bbbe36); not pushed. innovations/ committed as this project's own
+copy (D-8).
 
 VERIFIED — do not re-check (evidence in parentheses):
 - Current intent: heuristics outside the model, grown in layers (individual

@@ -141,9 +141,9 @@ Decision: A in substance, settled 2026-10-06 by the owner's confirmation of
   owner's earlier answer decides it); the owner may object.
 
 ## D-8 — Where the innovations/ toolbox lives
-status: proposed
+status: accepted
 date: 2026-10-05T17:05+03:00
-decided_by: pending
+decided_by: owner
 supersedes: none
 superseded_by: none
 affects: innovations/
@@ -166,7 +166,10 @@ Options:
   A) commit as a vendored snapshot with a source/date note
   B) add to .gitignore; keep as local reference                        ← DEFAULT
   C) move it out of this repo entirely
-Decision: pending
+Decision: A, as this project's OWN copy, not a vendored snapshot. Owner,
+  2026-10-06: "local innovations/ belongs to this project so it too gets
+  committed." It will later be moved to another project folder that future
+  projects inherit (owner, 2026-10-05). The default (B) is rejected.
 
 ## D-9 — Adopt the handoff system (BP-15..BP-21)
 status: accepted

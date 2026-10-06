@@ -35,5 +35,5 @@ Not started. See specs/06-phases.md. Graduation from Phase 1 not yet possible (n
 Owner decisions live in [decisions.md](decisions.md) (BP-15); this list only points.
 
 - ~~Final location of the harness repo~~ — decided: D-5.
-pending_decisions: D-6, D-8, D-10
+pending_decisions: D-6, D-10
 - License choice (MIT vs Apache-2.0) — required only before first external contribution (FUT-1); not yet a ledger entry.
