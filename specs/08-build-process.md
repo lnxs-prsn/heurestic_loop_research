@@ -43,6 +43,9 @@ cut, a rate limit, or a model swap.
   OUTCOME: done, commit a1b2c3d. Decision: one write() per line for atomicity
   (kill-test passed). Next: P1.6 or P1.5 free for parallel pickup.
   ```
+  Times in headings are read from the clock (`date`) at writing time, never
+  estimated; a wrong time is corrected by a new entry (preflight flags
+  future-dated records, BP-19).
   Decisions and their *reasons* are mandatory content — decisions are the
   expensive thing to reconstruct. This covers implementation-level decisions
   (how a pass was done). Owner-level decisions live in the ledger (BP-15);
@@ -52,11 +55,14 @@ cut, a rate limit, or a model swap.
 
 ## progress/HANDOFF.md — the trust cache (don't re-derive the verified)
 
-- **BP-14** `progress/HANDOFF.md` is a bounded snapshot (≤ ~40 lines),
-  REWRITTEN — not appended — at every session end. Contents: current state in
-  ≤3 lines; a "verified — do not re-check" list where every claim carries its
-  evidence (commit hash, BUILDLOG timestamp, or acceptance-run reference);
-  the 2–3 files the next task actually needs to read; open questions. Rules:
+- **BP-14** `progress/HANDOFF.md` is a bounded snapshot (≤ ~70 lines),
+  REWRITTEN — not appended — at every session end. After its field lines
+  (BP-18) it has these sections, in this order (BP-22 gives their rules):
+  `## START HERE — <date>: <what changed, where the next session begins>`,
+  `### FIRST ACT`, `### DONE`, `### NEXT, IN ORDER`, `### FOR THE OWNER`,
+  `### EXPECTED OPENING`. DONE is the "verified — do not re-check" list:
+  every claim carries its evidence (commit hash, file:line, BUILDLOG
+  timestamp, record ID) and keeps its source's qualifiers. Rules:
   a claim whose evidence predates a later change to the files it covers is
   stale and void; a fresh agent re-verifies only what its own pass touches
   plus one spot-check of the list; HANDOFF is a derived view over STATUS +
@@ -65,6 +71,39 @@ cut, a rate limit, or a model swap.
   state, BUILDLOG for what happened, decisions.md for owner decisions
   (BP-15). Purpose: no agent burns context re-confirming what a
   previous agent already confirmed with evidence.
+
+- **BP-22 — The session opening contract.** Every agent instance opens a
+  session the same way, defined by HANDOFF's sections:
+  - **FIRST ACT:** what to run or do before replying to anyone, without
+    asking (at least the preflight, BP-19); what the result should show if
+    all is well; any known oddity in it, explained up front.
+  - **DONE:** claims with sources and the sources' qualifiers kept
+    ("appears", "tested once", "read from the owner's message"); what is
+    NOT done, stated as plainly as what is.
+  - **NEXT, IN ORDER:** item 0 is anything the owner chose to do first;
+    then items ordered by impact on the current intent (HC-14), each with
+    the premise that would make it wasted work, copied word for word from
+    its source.
+  - **FOR THE OWNER:** only what the evidence and the owner's earlier
+    answers cannot settle (HC-29), each as an open question with enough
+    context to answer without opening a file, in plain words; not a menu.
+    Each starts with its anchor: stage, impact on the intent, and why
+    (HC-12).
+  - **The gap branch.** FIRST ACT's preflight prints an OWNER line (last
+    owner sitting, days since, unread outside material). If it shows a
+    RE-ENTRY SIGNAL (a long gap, or unread material), the opening is NOT
+    the FOR THE OWNER question: it is the re-entry frame from coherence/
+    (what / why / how / when, and where the project stands against the
+    intent; HC-21), offered before any question. The owner may decline it.
+  - **EXPECTED OPENING:** a correct first reply, with no prompting: has
+    done FIRST ACT and reports what it showed; raises FOR THE OWNER with its
+    context; keeps DONE's qualifiers; names NEXT in order with premises;
+    does not start NEXT 1 before the owner answers or redirects; does not
+    ask permission for what it may just do; uses plain words, IDs only as
+    references.
+  An agent's first reply that departs from EXPECTED OPENING is a defect in
+  the reply or in the handoff, and the session journals which. Preflight
+  gates the presence and order of the sections.
 
 ## Records, decisions, intake — the defensive layer
 
@@ -87,7 +126,8 @@ moment to give records stable IDs and typed links is before there are many.
 - **BP-17 — Record format and reference grammar.** A *record* is a markdown
   heading carrying a stable ID, immediately followed by `key: value` field
   lines, then free prose. Record types today: decisions `D-<n>`, intake
-  `I-<n>`, BUILDLOG entries (ID = `BUILDLOG@<heading timestamp>`).
+  `I-<n>`, BUILDLOG entries (ID = `BUILDLOG@<heading timestamp>`), intent
+  entries `INT-<n>` and owner sittings `SIT-<n>` (coherence/, optional).
   References anywhere in records use one grammar: requirement IDs
   (`INV-n`, `BP-n`, `DM-n`, `M-n`, `US-n`, `WF-5a`, …), passes (`P1.4`),
   decisions (`D-n`), intake (`I-n`), sharpening findings (`F-n`), BUILDLOG
@@ -117,7 +157,10 @@ moment to give records stable IDs and typed links is before there are many.
   set exactly. That catches both a stale "still pending" claim about an
   answered decision (the failure BP-18 exists to prevent) and a pending
   decision nobody mentions. Prose elsewhere cites decisions but does not
-  claim their status. Every
+  claim their status. Also: GATE a confirmed intent entry that cites no
+  owner sitting (HC-7); print the OWNER line and WARN "RE-ENTRY SIGNAL"
+  on a gap of 21+ days or unread intake (the length is set in preflight);
+  WARN records dated in the future (BP-6). Every
   failure prints a REMEDY. Its self-tests (`scripts/test_preflight.py`) plant
   each defect and require it be caught. `.githooks/commit-msg` enforces the
   BP-10 format; activation is D-10. Enforcers change in the same sitting as
@@ -125,7 +168,9 @@ moment to give records stable IDs and typed links is before there are many.
 - **BP-20 — Intake of outside material.** Material from other conversations
   or projects lands in `insights_from_other_conversations/` and gets an `I-<n>`
   record in its `INDEX.md` the session it is first seen. Registering is not
-  adopting: adoption is a `D-<n>` decision linked via `affects:`.
+  adopting: adoption is a `D-<n>` decision linked via `affects:`. Status
+  `held` marks material the owner set aside on purpose; it raises no
+  re-entry signal.
 - **BP-21 — Direction file.** `DIRECTION.md` at the root owns one fact: what
   this project is building right now and which inputs are under
   consideration. It carries no status and no history (STATUS, BUILDLOG and

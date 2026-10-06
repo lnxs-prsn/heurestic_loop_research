@@ -6,11 +6,14 @@ only point here.
 1. Run `python3 scripts/preflight.py`. Gate failure → fix it or journal it in
    progress/BUILDLOG.md before any other work. Read its WARN lines: they list
    pending owner decisions, unregistered files, and a stale handoff.
-2. Read progress/HANDOFF.md — the trust cache: its evidenced claims need not
-   be re-verified unless your work touches them (BP-14, BP-18).
+2. Read progress/HANDOFF.md and do its FIRST ACT before replying. Your first
+   reply must match its EXPECTED OPENING (BP-22). Its DONE claims are the
+   trust cache: no re-verifying unless your work touches them (BP-14,
+   BP-18).
 3. Start ritual per specs/08 BP-8: specs/00 → specs/01 → DIRECTION.md →
    progress/STATUS.md → BUILDLOG tail (≥ 3 entries).
-4. Journal INTENT in BUILDLOG before acting, OUTCOME after (BP-5).
+4. Journal INTENT in BUILDLOG before acting, OUTCOME after (BP-5). Read
+   every timestamp from `date`; never estimate it (BP-6).
 5. Owner-level decision (taste, money, autonomy, scope, hard-to-reverse)?
    Write a `proposed` entry in progress/decisions.md and STOP (BP-15).
 6. New files from outside (other conversations/projects)? Register them in

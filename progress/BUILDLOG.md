@@ -533,3 +533,75 @@ OUTCOME: owner: "local innovations/ belongs to this project so it too gets
 committed". D-8 accepted (A, as the project's own copy, not a vendored
 snapshot). innovations/ (34 files, plain folder, no nested repo, secret scan
 clean) committed with the ledger update. pending_decisions: D-6, D-10.
+
+## 2026-10-06T15:20+03:00 · claude-opus-5-5 · pi · structured HANDOFF (owner-directed, INV-10)
+INTENT: owner wants consistent session openings ("each instance outputs what
+they want without much coherence") and showed another project's HANDOFF
+template (START HERE / FIRST ACT / DONE / NEXT IN ORDER with premises / FOR
+THE OWNER / EXPECTED OPENING). Will: amend BP-14 (required sections,
+bound ~40 → ~70 lines; NEXT ordered by intent impact; FOR THE OWNER under
+the owner-involvement rule), add a preflight gate for the sections + tests,
+rewrite progress/HANDOFF.md in the new shape, update AGENTS.md step 2.
+
+## 2026-10-06T15:40+03:00 · claude-opus-5-5 · pi · structured HANDOFF — OUTCOME
+OUTCOME: done, uncommitted. BP-14 amended (sections, ≤ ~70 lines), BP-22
+added (session opening contract). Preflight gates presence and order of
+the sections; 19 self-tests green (2 new). The gate failed the old HANDOFF
+as expected; HANDOFF rewritten in the new shape (FOR THE OWNER a = D-6 in
+plain words, with the layer-1 format-room question). AGENTS.md step 2 now
+requires FIRST ACT before replying and EXPECTED OPENING as the first reply.
+Candidate refinement for innovations/handoff-discipline after evidence here.
+
+## 2026-10-06T16:00+03:00 · claude-opus-5-5 · pi · owner-gap opening + fold trial findings (owner: "do the changes")
+INTENT: (1) preflight reads the owner log: new record types SIT (owner
+sittings) and INT (intent entries), declared per BP-17; prints an OWNER line
+(last sitting, days since, unread intake) and a RE-ENTRY SIGNAL warning on a
+long gap or unread outside material; intake status "held" added (I-6).
+(2) BP-22 + HANDOFF: the opening branches on that signal: re-entry frame
+first, before any question; FOR THE OWNER items carry stage/impact/why.
+(3) Fold the nine RE-1 findings into incubating/…/kit (SPEC, OWNER_GUIDE,
+AGENT_POINTER, brief template); PATTERN + innovations README updated.
+
+## 2026-10-06T13:13+03:00 · claude-opus-5-5 · pi · CORRECTION: agent-estimated timestamps
+Entries from 2026-10-05T17:05 through 2026-10-06T16:00 (and the times in
+SIT-1, HANDOFF as_of, and RE-1/INT-4 notes of those sittings) carry times the
+agent ESTIMATED instead of reading the clock; they ran ahead of real time by
+up to ~3 h. Their ORDER is correct; their times are not evidence. Real
+anchors: commits 10ee803..9fcfff4 at 12:57-13:00 +03:00 on 2026-10-06; file
+mtimes; the clock was last read at 2026-10-05T17:04 before this entry.
+Found by preflight's new owner-gap line ("-1 days ago": SIT-1 dated after
+"now"). Not rewritten (append-only). From here on every entry's time is read
+from `date`, and preflight warns on future-dated records.
+
+## 2026-10-06T13:16+03:00 · claude-opus-5-5 · pi · owner-gap opening + fold trial findings — OUTCOME
+OUTCOME: done, uncommitted (intent entry above is dated 16:00 by estimate;
+see the CORRECTION entry). (1) preflight: record types INT and SIT (BP-17),
+OWNER line, RE-ENTRY SIGNAL (21+ days or unread intake), confirmed-intent
+needs a SIT gate (HC-7), future-dated records warning, clock-aware HANDOFF
+freshness; intake status "held" (I-6); 25 self-tests green (6 new; one test
+fixed for isolation, not the code). (2) specs/08: BP-6 clock rule, BP-17
+types, BP-19 checks, BP-20 held, BP-22 gap branch + anchor line. AGENTS.md
+step 4 clock rule. (3) Kit revised: HC-17/17a/23/24/25/38/39/40/41, AS-5/6,
+brief template, OWNER_GUIDE steps 5-7, AGENT_POINTER; PATTERN + innovations
+README say "folded, revised kit untested". HANDOFF rewritten next.
+
+## 2026-10-06T13:33+03:00 · claude-opus-5-5 · pi · first evidence: session opening contract (BP-22)
+OUTCOME: owner started a fresh instance with "read handoff" and pasted its
+first reply. Checked against EXPECTED OPENING: gap check run and correctly
+"no re-entry due" (0 ✓); FIRST ACT done and every warning matched to the
+handoff's predictions incl. estimated times (1 ✓); FOR THE OWNER a with
+anchor + plain-language context (2 ✓); all DONE qualifiers kept (3 ✓); NEXT
+order right but item 1's premise DROPPED and item 2's paraphrased (4 ✗,
+defect in the reply: the handoff stated it verbatim); did not start work
+(5 ✓); asked no permission for routine actions (6 ✓). Fix: HANDOFF item 4
+now says premises are QUOTED, not paraphrased. Evidence for BP-22 and for a
+future innovations/handoff-discipline refinement.
+
+## 2026-10-06T13:35+03:00 · claude-opus-5-5 · pi · new owner rule: commit after every change
+INTENT: owner: "after updating handoff or any file commit, to avoid issues
+that might arise when we change project management structures". Will: first
+commit the pending work as is; then record D-12 (accepted, owner), amend
+AGENTS.md rule 8 and specs/08 BP-9/BP-10 (commit after each change; push
+still only on the owner's word), and make preflight's verified_at check
+measure from the last commit that rewrote HANDOFF (else every commit would
+leave the handoff "stale"); commit that.

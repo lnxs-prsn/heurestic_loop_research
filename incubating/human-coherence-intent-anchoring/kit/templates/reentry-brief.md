@@ -16,13 +16,21 @@ Rules: SPEC.md HC-20..HC-27 (reflection: HC-31). Never rewritten.
 
 ### Moves
 <grouped directions, ordered by impact; each against the intent and against
-the position at gap start; no recommendation>
+the position at gap start, with the reason for its position; no
+recommendation>
 
-### Restatement
-<owner's words, verbatim or approved by the owner>
+### Moves against each other
+<layer view: what each move needs to exist first (upstream/downstream);
+every apparent conflict tested for material/precondition, wording, or
+level; only real choices remain>
+
+### Drafted intent
+<the current intent drafted from evidence, every claim cited (a derived INT
+entry); the owner confirms or corrects it; never ask the owner to restate>
 
 ### Drift check
-<each point: kept | evolved | adopted-move | rejected-move | new | dropped>
+<each point: kept | evolved | adopted-move | rejected-move | new | dropped;
+two verdicts with evidence: intent changed significantly? road deviated?>
 
 ### Resolutions
 <per difference: update | keep | park | sub-project built on top; resulting

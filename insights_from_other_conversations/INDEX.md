@@ -214,7 +214,7 @@ Processed 2026-10-06 against INT-2.
 
 
 ## I-6 — insights_about_projects_that_are_similar.md
-status: unread
+status: held
 date: 2026-10-06
 received: 2026-10-06
 source: owner, landscape survey made by web Claude on 2026-10-06 against the RE-1 move list (web searches + READMEs/abstracts; nothing installed or run)

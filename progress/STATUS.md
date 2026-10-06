@@ -28,7 +28,7 @@ Not started. See specs/06-phases.md. Graduation from Phase 1 not yet possible (n
 ## Process
 
 - Handoff system (specs/08 BP-15..BP-21) — done (10ee803) — owner-approved commit 2026-10-06 (D-9, D-11; BUILDLOG@2026-10-05T17:05+03:00)
-- Human coherence trial (incubating/human-coherence-intent-anchoring, coherence/) — in-progress (claude-opus-5-5, pi, 2026-10-06) — re-entry RE-1 closed, intent INT-4 confirmed (SIT-1); nine findings not yet folded into the pattern spec; pattern committed 46f2708 (BUILDLOG@2026-10-06T13:55+03:00)
+- Human coherence trial (incubating/human-coherence-intent-anchoring, coherence/) — in-progress (claude-opus-5-5, pi, 2026-10-06) — re-entry RE-1 closed, intent INT-4 confirmed (SIT-1); nine findings folded into the kit 2026-10-06 (uncommitted; revised kit untested); pattern first committed 46f2708 (BUILDLOG@2026-10-06T13:55+03:00)
 
 ## Open decisions (owner)
 

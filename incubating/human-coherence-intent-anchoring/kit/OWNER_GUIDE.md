@@ -58,13 +58,15 @@ when it notices signs you may have lost the thread. It never forces it.
    first, each described in your project's original terms: what it would
    keep, change or drop, and whether it changes *what the project is for* or
    only *the route*. Nothing is recommended yet.
-5. **Your turn.** Only now are you asked: what is this project, and what
-   should it become? Answer roughly, in any form.
-6. **Differences.** You see where your answer kept, changed, adopted or
-   rejected things, and anything new that appears nowhere yet.
-7. **You decide** each difference: update the intent, keep it, park it as an
-   open question, or make it a **sub-project built on top**, for an idea
-   that needs the current project underneath it.
+5. **How they fit together.** You see which directions build on which,
+   and whether any truly compete or only need ordering.
+6. **Your intent, drafted.** The agent drafts what the project is for now,
+   from the evidence, with sources. You confirm it or correct it; you are
+   never asked to restate the project from memory.
+7. **The verdict.** Has the intent changed significantly, and has the road
+   from where the project stands to that intent been bent? If neither, you
+   are done. If so, you decide each difference: update the intent, keep it,
+   park it as an open question, or make it a **sub-project built on top**.
 
 You leave knowing where you are, and the record knows too.
 
@@ -81,4 +83,7 @@ which stages advanced or stalled.
 - You are never shown a reconstructed intent as if you had confirmed it.
 - You are never asked something your earlier answers already decide; they
   apply your answer and tell you which one.
+- You are brought in only when the evidence shows the intent changed, the
+  road bent, or a question the evidence can't settle.
+- After a long gap, the first thing you see is the frame, not a question.
 - Every item names what it is in words, not just an ID.

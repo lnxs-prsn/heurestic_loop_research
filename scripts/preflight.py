@@ -22,7 +22,7 @@ from pathlib import Path
 # --- record type registry (BP-17: new types are added HERE, by declaration) --
 
 FIELD_RE = re.compile(r"^([a-z_]+): (.*)$")
-REF_FIELDS = ("supersedes", "superseded_by", "affects", "evidence")
+REF_FIELDS = ("supersedes", "superseded_by", "affects", "evidence", "builds_on")
 
 RECORD_TYPES = {
     "decision": {
@@ -39,7 +39,26 @@ RECORD_TYPES = {
         "id": lambda m: m.group(1),
         "required": ("status", "date", "received", "source", "file",
                      "affects", "evidence"),
-        "status": ("unread", "digested", "applied", "rejected"),
+        "status": ("unread", "held", "digested", "applied", "rejected"),
+    },
+    # Human coherence structure (incubating/human-coherence-intent-anchoring,
+    # kit/SPEC.md HC-4, HC-30). Optional: a project without coherence/ passes.
+    "intent": {
+        "file": "coherence/intent.md",
+        "heading": re.compile(r"^## (INT-\d+) — (.+)$"),
+        "id": lambda m: m.group(1),
+        "required": ("kind", "describes", "status", "confirmed", "evidence",
+                     "builds_on", "supersedes", "superseded_by"),
+        "status": ("derived", "confirmed", "superseded"),
+        "optional": True,
+    },
+    "sitting": {
+        "file": "coherence/owner-log.md",
+        "heading": re.compile(r"^## (SIT-\d+) — (.+)$"),
+        "id": lambda m: m.group(1),
+        "required": ("date", "kind", "confirmed", "decided", "brief"),
+        "status": None,
+        "optional": True,
     },
     "buildlog": {
         "file": "progress/BUILDLOG.md",
@@ -55,15 +74,19 @@ HANDOFF = "progress/HANDOFF.md"
 # Files whose prose may cite D-/I-/BUILDLOG@ ids; those citations must resolve.
 CITING_FILES = (HANDOFF, "progress/STATUS.md", "DIRECTION.md", "AGENTS.md")
 PENDING_FILES = (HANDOFF, "progress/STATUS.md")
+HANDOFF_SECTIONS = ("## START HERE", "### FIRST ACT", "### DONE",
+                    "### NEXT, IN ORDER", "### FOR THE OWNER",
+                    "### EXPECTED OPENING")
 INTAKE_DIR = "insights_from_other_conversations"
 PROSE_REF_RE = re.compile(
-    r"(?<![\w-])(D-\d+|I-\d+|BUILDLOG@\d{4}-\d\d-\d\dT\d\d:\d\d(?::\d\d)?[+-]\d\d:\d\d)")
+    r"(?<![\w-])((?:D|I|INT|SIT)-\d+|BUILDLOG@\d{4}-\d\d-\d\dT\d\d:\d\d(?::\d\d)?[+-]\d\d:\d\d)")
 
 
 class Report:
     def __init__(self):
         self.gates: list[tuple[str, str]] = []
         self.warns: list[tuple[str, str]] = []
+        self.info: list[str] = []
 
     def gate(self, msg, remedy):
         self.gates.append((msg, remedy))
@@ -95,6 +118,8 @@ def parse_records(root: Path, rep: Report) -> dict[str, dict]:
     records: dict[str, dict] = {}
     for rtype, spec in RECORD_TYPES.items():
         path = root / spec["file"]
+        if not path.exists() and spec.get("optional"):
+            continue
         if not path.exists():
             rep.gate(f"{spec['file']} missing",
                      "restore it from git, or recreate per specs/08 BP-17")
@@ -155,7 +180,7 @@ class Resolver:
             encoding="utf-8"), re.M)) if sharp.exists() else set()
 
     def resolves(self, ref: str) -> bool:
-        if re.fullmatch(r"(D|I)-\d+|BUILDLOG@.+", ref):
+        if re.fullmatch(r"(D|I|INT|SIT)-\d+|BUILDLOG@.+", ref):
             return ref in self.records
         if re.fullmatch(r"F-\d+", ref):
             return ref in self.findings
@@ -272,7 +297,66 @@ def check_pending_claims(root: Path, records, rep: Report):
                      "add it to the pending_decisions line")
 
 
-def check_handoff(root: Path, records, rep: Report):
+REENTRY_GAP_DAYS = 21   # project-set "long gap" (HC-28); change here only
+
+
+def check_owner(root: Path, records, rep: Report, now: datetime):
+    """HC-7, HC-28, BP-22: owner confirmations and the re-entry signal."""
+    sits = {k: r for k, r in records.items() if r["type"] == "sitting"}
+    for r in records.values():
+        if r["type"] == "intent" and r["fields"].get("status") == "confirmed":
+            cited = re.findall(r"SIT-\d+", r["fields"].get("confirmed", ""))
+            if not cited or any(c not in sits for c in cited):
+                rep.gate(f"{r['id']} is confirmed without a matching owner sitting",
+                         "only the owner confirms; cite the SIT record of that sitting (HC-7)")
+    if not (root / RECORD_TYPES["sitting"]["file"]).exists():
+        return
+    dated = [(parse_ts(r["fields"].get("date", "")), k) for k, r in sits.items()]
+    dated = [(d, k) for d, k in dated if d]
+    unread = sorted(k for k, r in records.items()
+                    if r["type"] == "intake" and r["fields"].get("status") == "unread")
+    if not dated:
+        rep.info.append("OWNER no sitting recorded yet; re-entry due: yes")
+        rep.warn("RE-ENTRY SIGNAL: no owner sitting recorded",
+                 "open with the re-entry frame (BP-22), not with FOR THE OWNER")
+        return
+    last, sid = max(dated)
+    days = max(0, (now - last).days)
+    due = days >= REENTRY_GAP_DAYS or bool(unread)
+    rep.info.append(f"OWNER last sitting {sid} {last.date().isoformat()} ({days} days ago); "
+                    f"unread intake: {', '.join(unread) or 'none'}; "
+                    f"re-entry due: {'yes' if due else 'no'}")
+    if due:
+        why = []
+        if days >= REENTRY_GAP_DAYS:
+            why.append(f"{days} days since the owner's last sitting")
+        if unread:
+            why.append(f"unread outside material {', '.join(unread)}")
+        rep.warn("RE-ENTRY SIGNAL: " + "; ".join(why),
+                 "open with the re-entry frame (BP-22, HC-21), not with FOR THE OWNER")
+
+
+CLOCK_SLACK_MIN = 2
+
+
+def record_time(r):
+    """The timestamp a record claims: BUILDLOG heading, or a date field."""
+    if r["type"] == "buildlog":
+        return parse_ts(r["id"].split("@", 1)[1])
+    return parse_ts(r["fields"].get("date", ""))
+
+
+def check_clock(records, rep: Report, now: datetime):
+    """Timestamps are evidence only if read from a clock: flag future-dated ones."""
+    future = sorted(k for k, r in records.items()
+                    if (t := record_time(r)) and (t - now).total_seconds() > CLOCK_SLACK_MIN * 60)
+    if future:
+        rep.warn(f"{len(future)} record(s) dated in the future: {', '.join(future[:3])}"
+                 + (" …" if len(future) > 3 else ""),
+                 "read the clock (`date`) when writing timestamps; correct by a new record, not an edit")
+
+
+def check_handoff(root: Path, records, rep: Report, now: datetime | None = None):
     p = root / HANDOFF
     if not p.exists():
         rep.gate(f"{HANDOFF} missing", "write it per specs/08 BP-14/BP-18")
@@ -282,6 +366,18 @@ def check_handoff(root: Path, records, rep: Report):
         m = FIELD_RE.match(line)
         if m:
             head[m.group(1)] = m.group(2).strip()
+    lines = p.read_text(encoding="utf-8").splitlines()
+    pos = []
+    for sec in HANDOFF_SECTIONS:
+        hits = [n for n, l in enumerate(lines) if l.startswith(sec)]
+        if not hits:
+            rep.gate(f"{HANDOFF} lacks section '{sec}'",
+                     "rewrite HANDOFF with all BP-14 sections (rules: BP-22)")
+        else:
+            pos.append(hits[0])
+    if len(pos) == len(HANDOFF_SECTIONS) and pos != sorted(pos):
+        rep.gate(f"{HANDOFF} sections out of order",
+                 "order: " + " → ".join(HANDOFF_SECTIONS) + " (BP-14)")
     as_of = parse_ts(head.get("as_of", ""))
     if as_of is None:
         rep.gate(f"{HANDOFF} lacks a valid 'as_of:' timestamp",
@@ -289,7 +385,10 @@ def check_handoff(root: Path, records, rep: Report):
     else:
         stamps = [parse_ts(r["id"].split("@", 1)[1]) for r in records.values()
                   if r["type"] == "buildlog"]
-        newest = max((s for s in stamps if s), default=None)
+        limit = now or datetime.now().astimezone()
+        newest = max((s for s in stamps
+                      if s and (s - limit).total_seconds() <= CLOCK_SLACK_MIN * 60),
+                     default=None)
         if newest and newest > as_of:
             rep.warn(f"HANDOFF as_of {as_of.isoformat()} is older than newest "
                      f"BUILDLOG entry {newest.isoformat()}",
@@ -342,7 +441,7 @@ def export(records) -> dict:
     return {"schema_version": 1, "nodes": nodes, "edges": edges}
 
 
-def run(root: Path) -> tuple[Report, dict]:
+def run(root: Path, now: datetime | None = None) -> tuple[Report, dict]:
     rep = Report()
     records = parse_records(root, rep)
     res = Resolver(root, records)
@@ -351,7 +450,10 @@ def run(root: Path) -> tuple[Report, dict]:
     check_intake(root, records, rep)
     check_citations(root, res, rep)
     check_pending_claims(root, records, rep)
-    check_handoff(root, records, rep)
+    now = now or datetime.now().astimezone()
+    check_owner(root, records, rep, now)
+    check_clock(records, rep, now)
+    check_handoff(root, records, rep, now)
     check_git(root, rep)
     return rep, records
 
@@ -372,6 +474,8 @@ def main(argv=None) -> int:
     status = "RED" if rep.gates else ("AMBER" if rep.warns else "GREEN")
     print(f"preflight: {status} — {len(rep.gates)} gate(s), {len(rep.warns)} warning(s)")
     print("RECORDS " + " · ".join(f"{t}={n}" for t, n in counts.items()))
+    for line in rep.info:
+        print(line)
     for tag, items in (("GATE", rep.gates), ("WARN", rep.warns)):
         for msg, remedy in items:
             print(f"{tag} {msg}\n     REMEDY: {remedy}")

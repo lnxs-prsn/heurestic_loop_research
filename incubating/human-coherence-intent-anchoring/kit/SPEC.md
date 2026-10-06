@@ -1,8 +1,7 @@
 # SPEC — human coherence structure using intent anchoring (agent-facing)
 
-> **Known delta (2026-10-06):** first-trial findings are not yet applied
-> here. Most important: HC-24 "restate" is to become "agent drafts the intent
-> from evidence; owner confirms or corrects". See PATTERN.md "Proven in".
+> **Revised 2026-10-06** with the nine findings of the first trial
+> (PATTERN.md "Proven in"). New: HC-17a, HC-38..HC-41.
 
 Requirement prefix: **HC**. Normative keywords MUST / MUST NOT / SHOULD / MAY
 as in RFC 2119. The owner-facing explanation of the same structure is
@@ -61,8 +60,9 @@ agents auto-load (e.g. `AGENTS.md`).
 - **HC-5 — Kinds.** *origin*: reconstructed from the material the project
   started from. *checkpoint*: reconstructed from what the project had become
   at a date (e.g. when a pause began). *evolution*: what outside material
-  since a checkpoint proposes. *restated*: the owner's own restatement from a
-  re-entry, in their words.
+  since a checkpoint proposes. *restated*: the owner's own words, when the
+  owner volunteers a restatement (never requested; HC-24). The current
+  intent drafted at a re-entry is a *checkpoint* dated that day.
 - **HC-6 — Evidence per claim.** A *derived* entry MUST cite evidence for
   each statement it makes (file paths, record IDs, commits). A statement with
   no evidence MUST be marked `(inferred)`.
@@ -119,32 +119,48 @@ agents auto-load (e.g. `AGENTS.md`).
   elsewhere, documents from other agents or projects, notes) is dropped into
   `inbox/` and registered in `inbox/INDEX.md` as `IN-<n>` the session it is
   first seen, with fields: `file` · `received` · `source` ·
-  `status` ∈ registered | processed | presented | resolved ·
+  `status` ∈ registered | processed | presented | resolved | held ·
   `stages` · `impact` · `evidence`.
 - **HC-17 — Processing.** Before it reaches the owner, each item is
   processed: its body gains **What** (what it changes), **Why** (the reason
   it gives), **How** (how it intends to move the project), written against
   the current intent (HC-8) and the story map. Raw material MUST NOT be
-  handed to the owner unprocessed.
+  handed to the owner unprocessed. Processing MUST account for every
+  statement the owner made in the material: each is carried into a move
+  (HC-23) or listed as set aside, never silently compressed away. Where
+  the material marks the owner's own statements apart from an assistant's
+  suggestions, keep the distinction.
+- **HC-17a — Outside check of processing (SHOULD).** When the material came
+  from conversations another assistant can still see, the owner MAY have
+  that assistant compare the processed result with the source
+  conversations. Its findings are verified item by item against the files
+  before anything changes: present-but-omitted, misread, or absent (to be
+  fetched).
 - **HC-18** Registering and processing are not adopting. An inbox item
-  changes the intent only through a re-entry resolution (HC-26).
+  changes the intent only through a re-entry resolution (HC-26). Material
+  the owner sets aside on purpose gets status `held`.
 
 ## 6. Re-entry — the owner's way back in
 
 - **HC-19 — When.** A re-entry runs when the owner asks, or when an agent
   sees coherence signals (HC-28) and the owner accepts its offer.
+- **HC-38 — Input window.** A re-entry covers the material from the gap:
+  from the owner's last sitting to the start of the re-entry. Material that
+  arrives *during* the re-entry is registered (HC-16) and held for later,
+  not folded into the moves, unless the owner says otherwise.
 - **HC-20 — Step 1, process (before the owner sits down).** Every change
-  since the owner's last sitting (HC-30) is processed (HC-17) and given its
-  impact (HC-12). The intent timeline gains any missing *checkpoint* entry
-  for where the project stood at the start of the gap, and *evolution*
-  entries for what has arrived since, all `derived`.
+  in the input window is processed (HC-17) and given its impact (HC-12).
+  The intent timeline gains any missing *checkpoint* entry for where the
+  project stood at the start of the gap, and *evolution* entries for what
+  has arrived since, all `derived`.
 - **HC-21 — Step 2, the frame.** The agent presents, in a short first view:
   *what* the project is for, *why*, *how* it was going about it, and *when*
   things happened, from origin to the start of the gap to now. Then where
   the project stood **relative to the intent** at the start of the gap: each
   stage with what it contributes to the intent and how far it had got, and
   each waiting decision with which part of the intent it serves. Never a
-  bare list of states.
+  bare list of states. (Trial: the frame alone was enough for the owner to
+  recall; good memory, bad recovery.)
 - **HC-22 — Step 3, recall and ask.** The owner recalls and asks directed
   questions; the agent answers each from the files, citing them, at whatever
   depth is asked. This continues until the owner says they have the thread.
@@ -152,31 +168,53 @@ agents auto-load (e.g. `AGENTS.md`).
   read-through.
 - **HC-23 — Step 4, proposed moves.** Processed material is grouped into
   *moves* (items that push the project the same way). Each move is described
-  in the language of the intent, against two fixed points:
+  in the language of the intent, against three fixed points:
   (a) the intent: what it keeps, changes, drops, and whether it changes the
   intent itself or only the route;
   (b) the position at the start of the gap: stages it reopens or advances,
-  decisions it affects or makes moot.
-  Moves are ordered by impact (HC-14) and shown side by side. The agent MUST
-  NOT recommend any move before the owner has restated (HC-24).
-- **HC-24 — Step 5, restate.** Only now is the owner asked what the project
-  is and should become, in any form. The answer is recorded as a `restated`
-  INT entry, in the owner's words.
-- **HC-25 — Step 6, drift check.** The agent compares the restatement with
-  the timeline and each move and labels each point:
-  kept | evolved | adopted-move | rejected-move | new | dropped.
+  decisions it affects or makes moot;
+  (c) **the other moves**: which are upstream and downstream of each other
+  (a layer view: what each needs to exist first), and whether any two truly
+  compete or only need ordering.
+  Before presenting anything as a conflict or a choice, the agent MUST test
+  it: is one the material or the precondition of the other? Is the
+  difference only in wording, or between two levels (e.g. rules vs tasks)?
+  Only what survives this test is a choice. Moves are ordered by impact
+  (HC-14), shown side by side, each with the *reason* for its position; a
+  revised view keeps that full explanation and never falls back to bare
+  move codes (HC-15). The agent MUST NOT recommend any move before the
+  intent is drafted (HC-24).
+- **HC-24 — Step 5, draft the intent; the owner confirms.** The agent does
+  NOT ask the owner to restate the project. It drafts the current intent
+  from the evidence (the timeline, the processed material with the owner's
+  own statements, the owner's answers in this re-entry) as a `derived` INT
+  entry, every claim cited, and shows it with the drift check (HC-25). The
+  owner confirms or corrects it. Only what the evidence cannot settle is put
+  to the owner as a question (HC-39). (Trial: asking the owner to restate
+  contradicted the owner's own rule that the intent is derived from evidence
+  and confirmed by the owner.)
+- **HC-25 — Step 6, drift check.** The agent compares the drafted intent
+  with the timeline and each move and labels each point:
+  kept | evolved | adopted-move | rejected-move | new | dropped. It states
+  two verdicts with evidence: has the intent changed significantly? Has
+  the road from the current state to the intent been deviated? If neither,
+  the result is "intent kept; road unchanged", and nothing further needs
+  the owner.
 - **HC-26 — Step 7, resolve.** For each difference, the owner chooses:
   update the intent · keep the old · park as an open question ·
   **sub-project built on top** (a new idea that needs the current project
   underneath it gets its own intent timeline with `builds_on`, and starts
-  when its base allows). Outputs: a confirmed INT entry (or the existing one
-  re-confirmed with today's date), any new decisions, and pending decisions
-  re-ordered by impact on the resulting intent.
+  when its base allows). Outputs: a confirmed INT entry citing the owner's
+  sitting (HC-30), any new decisions, and pending decisions re-ordered by
+  impact on the resulting intent; decisions the confirmation settles are
+  closed with that as their evidence (HC-29).
 - **HC-27 — The brief.** Each re-entry leaves `reentry/RE-<n>.md` with
   fields `kind: reentry` · `date` · `gap_start` · `intent_before` ·
   `intent_after` · `evidence`, and sections: Frame · Questions asked ·
-  Moves · Restatement · Drift check · Resolutions. Briefs form a series and
-  are never rewritten.
+  Moves · Moves against each other · Drafted intent · Drift check ·
+  Resolutions. Corrections during the sitting are struck in place and
+  dated, never deleted. Briefs form a series and are never rewritten after
+  the sitting.
 
 ## 7. Coherence signals
 
@@ -185,18 +223,25 @@ agents auto-load (e.g. `AGENTS.md`).
   - the owner's instructions or questions contradict the current intent, or
     reopen something already settled;
   - the owner cannot place a decision put to them;
-  - inbox items with impact changes-intent are waiting and no re-entry has
-    happened since they arrived;
+  - unread outside material is waiting (status not `held`);
   - a long run of work or decisions with impact route-only or untouched
     (the project is busy but not moving);
   - the intent timeline has competing unconfirmed entries;
   - a long gap since the last owner sitting (project sets the length).
-  The offer names the signal in plain words.
+  The offer names the signal in plain words. When a session opens on such a
+  signal, the opening is the frame (HC-21), not a question (HC-41).
 - **HC-29 — Check before asking.** Before putting any question to the owner,
   an agent MUST check whether the owner's earlier answers (confirmed intent,
   decision ledger, owner log, re-entry briefs) already decide it. If they do,
   the agent applies that answer, tells the owner which earlier answer settled
-  it, and lets them object.
+  it, and lets them object. An agent MUST NOT promote an owner's example or
+  correction about one part into a statement about the whole project; when
+  unsure which a remark is about, it asks.
+- **HC-39 — When to involve the owner.** The owner is brought in only when
+  the evidence shows a significant change to the intent, or a deviation of
+  the road from the current state to the intent, or a question the evidence
+  and the owner's earlier answers cannot settle. Everything else the agent
+  derives, applies and reports. (Trial: the owner's own closing test.)
 
 ## 8. The owner log — `<cdir>/owner-log.md`
 
@@ -230,6 +275,19 @@ agents auto-load (e.g. `AGENTS.md`).
   every inbox file has an IN record (HC-16); every pending owner-facing item
   has the HC-12 fields; and it reports HC-28 signals it can compute (gap
   length, unprocessed changes-intent items, impact mix since last sitting).
+  Origin implementation (gap line, re-entry signal, confirmation check,
+  future-dated records): the origin project's scripts/preflight.py.
+- **HC-40 — Times are read, not estimated.** Every timestamp an agent
+  writes into a record (log entries, sittings, as-of fields) is read from
+  the clock at writing time. A wrong time is corrected by a new record. The
+  gap length (HC-28) and every "since" depend on it. (Trial: an agent
+  estimated times and drifted ~3 h ahead; the gap check exposed it.)
+- **HC-41 — The opening branch.** Where the project uses a session handoff
+  with a defined first reply, that first reply branches on the coherence
+  signals: no signal, the usual opening; a signal (long gap, unread
+  material), the re-entry frame (HC-21) is offered first, before any
+  question to the owner. Every question put to the owner in a handoff
+  carries its anchor: stage, impact on the intent, why (HC-12).
 
 ## 11. Adopting
 
@@ -265,9 +323,14 @@ Owner:
 Agent:
 - **AS-1** An agent recognises coherence signals and offers a re-entry.
 - **AS-2** From files alone, an agent reconstructs the timeline with evidence
-  and prepares the frame; only restatement and confirmation need the owner.
+  and prepares the frame and the drafted intent; only confirmation, and
+  what the evidence cannot settle, need the owner.
 - **AS-3** No derived intent is ever presented as confirmed.
 - **AS-4** No question reaches the owner that their earlier answers decide.
+- **AS-5** After a long gap, the first thing the owner sees is the frame,
+  not a question.
+- **AS-6** The owner is never asked to restate the project; they confirm or
+  correct an intent drafted from evidence.
 
 Adopting project:
 - **AD-1** A new project adopts this from the kit in under an hour, with no

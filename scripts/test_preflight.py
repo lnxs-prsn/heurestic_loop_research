@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -56,6 +57,21 @@ INTENT: something; cites D-1.
 """
 
 
+SECTIONS = """
+## START HERE — 2026-07-10: fixture
+### FIRST ACT
+run preflight
+### DONE
+- nothing
+### NEXT, IN ORDER
+1 something
+### FOR THE OWNER
+a. nothing
+### EXPECTED OPENING
+1. reports preflight
+"""
+
+
 class Fixture:
     """A minimal, valid repo; tests mutate one thing each."""
 
@@ -91,7 +107,7 @@ class Fixture:
     def handoff(self, as_of, sha, body, pending="none"):
         self.write("progress/HANDOFF.md",
                    f"# HANDOFF\nas_of: {as_of}\nverified_at: {sha}\n"
-                   f"pending_decisions: {pending}\n\n{body}\n")
+                   f"pending_decisions: {pending}\n\n{body}\n" + SECTIONS)
 
     def set_pending(self, pending):
         self.handoff("2026-07-10T20:00+03:00", self.sha, "see D-1", pending)
@@ -187,6 +203,76 @@ class PreflightTests(unittest.TestCase):
         gates, _ = self.fx.run()
         self.assertCaught(gates, "lacks a valid 'as_of:'")
         self.assertCaught(gates, "lacks a valid 'verified_at:'")
+
+    def test_handoff_missing_section(self):
+        p = self.fx.root / "progress/HANDOFF.md"
+        p.write_text(p.read_text().replace("### EXPECTED OPENING", "### OPENING"))
+        self.assertCaught(self.fx.run()[0], "lacks section '### EXPECTED OPENING'")
+
+    def test_handoff_sections_out_of_order(self):
+        p = self.fx.root / "progress/HANDOFF.md"
+        t = p.read_text()
+        t = t.replace("### DONE", "### TMP").replace("### FIRST ACT", "### DONE").replace("### TMP", "### FIRST ACT")
+        p.write_text(t)
+        self.assertCaught(self.fx.run()[0], "sections out of order")
+
+    # --- human coherence: owner log, intent confirmation, clock ---------------
+
+    def coherence(self, sit_date="2026-07-10T20:00+03:00", int_status="derived",
+                  int_confirmed="none"):
+        self.fx.write("coherence/owner-log.md",
+                      "# Owner log\n\n## SIT-1 — sitting\n"
+                      f"date: {sit_date}\nkind: reentry\nconfirmed: none\n"
+                      "decided: none\nbrief: none\n")
+        self.fx.write("coherence/intent.md",
+                      "# Intent\n\n## INT-1 — origin\nkind: origin\n"
+                      f"describes: 2026-07-09\nstatus: {int_status}\n"
+                      f"confirmed: {int_confirmed}\nevidence: BUILDLOG@2026-07-10T20:00+03:00\n"
+                      "builds_on: none\nsupersedes: none\nsuperseded_by: none\n")
+
+    def run_at(self, iso):
+        rep, _ = preflight.run(self.fx.root, now=datetime.fromisoformat(iso))
+        return [m for m, _ in rep.gates], [m for m, _ in rep.warns], rep.info
+
+    def test_no_coherence_dir_is_fine(self):
+        gates, warns, info = self.run_at("2026-07-11T10:00+03:00")
+        self.assertEqual(gates, [])
+        self.assertEqual(info, [])
+
+    def test_long_gap_raises_reentry_signal(self):
+        self.coherence()
+        _, warns, info = self.run_at("2026-10-05T10:00+03:00")
+        self.assertCaught(warns, "RE-ENTRY SIGNAL")
+        self.assertIn("re-entry due: yes", info[0])
+
+    def test_short_gap_no_signal(self):
+        self.coherence()
+        p = self.fx.root / "insights_from_other_conversations/INDEX.md"
+        p.write_text(p.read_text().replace("status: unread", "status: digested"))
+        _, warns, info = self.run_at("2026-07-12T10:00+03:00")
+        self.assertFalse(any("RE-ENTRY" in w for w in warns))
+        self.assertIn("re-entry due: no", info[0])
+
+    def test_unread_intake_raises_signal_but_held_does_not(self):
+        self.coherence()
+        p = self.fx.root / "insights_from_other_conversations/INDEX.md"
+        _, warns, _ = self.run_at("2026-07-12T10:00+03:00")
+        self.assertCaught(warns, "unread outside material I-1")
+        p.write_text(p.read_text().replace("status: unread", "status: held"))
+        _, warns, _ = self.run_at("2026-07-12T10:00+03:00")
+        self.assertFalse(any("RE-ENTRY" in w for w in warns))
+
+    def test_confirmed_intent_needs_owner_sitting(self):
+        self.coherence(int_status="confirmed", int_confirmed="2026-07-10, owner")
+        gates, _, _ = self.run_at("2026-07-12T10:00+03:00")
+        self.assertCaught(gates, "INT-1 is confirmed without a matching owner sitting")
+        self.coherence(int_status="confirmed", int_confirmed="2026-07-10, owner (SIT-1)")
+        gates, _, _ = self.run_at("2026-07-12T10:00+03:00")
+        self.assertEqual(gates, [])
+
+    def test_future_dated_record_flagged(self):
+        _, warns, _ = self.run_at("2026-07-10T18:00+03:00")
+        self.assertCaught(warns, "dated in the future: BUILDLOG@2026-07-10T20:00+03:00")
 
     def test_export_has_typed_edges(self):
         _, records = preflight.run(self.fx.root)

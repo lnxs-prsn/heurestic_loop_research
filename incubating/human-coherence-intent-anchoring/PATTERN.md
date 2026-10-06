@@ -1,8 +1,8 @@
 # Human coherence structure using intent anchoring — keep the human in charge in step with a project others keep changing
 
 > **STATUS: INCUBATING — not yet admitted to innovations/.** Designed
-> 2026-10-05; first trial completed 2026-10-06; its findings are not yet
-> folded into kit/SPEC.md. Per innovations/CONTRIBUTING.md §1 it moves
+> 2026-10-05; first trial completed 2026-10-06; its nine findings were
+> folded into the kit the same day. The revised kit is not yet tested. Per innovations/CONTRIBUTING.md §1 it moves
 > into innovations/ only after real use with dated evidence. See "Proven in".
 
 ## What it is
@@ -56,7 +56,8 @@ many agents feed. The more agents, and the longer the gaps, the more it
 carries. Less useful for a short project the owner works on continuously.
 
 ## Proven in
-**First trial done; findings not yet folded into the kit.** Trial
+**First trial done; findings folded into the kit 2026-10-06 (the revised
+kit is untested).** Trial
 2026-10-05/06, origin project: re-entry after a ~3-month hiatus. Step 1
 reconstructed the intent timeline (origin, checkpoint at the pause,
 evolution) and processed five documents of the owner's hiatus thinking;
@@ -73,6 +74,13 @@ omissions; keep revised views fully explained, with no bare codes; re-entry
 has an input window (gap material only); test apparent conflicts for
 material/precondition relations first; never promote an owner's example
 into an intent. Full record: the origin project's coherence/reentry/RE-1.md.
+Folded as: HC-17 (account for every owner statement), HC-17a (outside
+check), HC-23 (moves against each other; conflict test), HC-24 (draft,
+don't ask to restate), HC-25 (two verdicts), HC-38 (input window), HC-39
+(when to involve the owner), and, from the same day's follow-up, HC-40
+(times read from the clock: the agent's estimated timestamps drifted ~3 h
+and the gap check exposed it) and HC-41 (the session opening branches to
+the frame on a long gap).
 
 Design evidence, from the origin project (a spec
 repo for a heuristic harness for AI coding agents; owner + AI agents; 2026):

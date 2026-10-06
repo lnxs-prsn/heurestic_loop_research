@@ -70,8 +70,9 @@ rather than merely misrouting, and run its gate check over the rule set.
   `incubating/human-coherence-intent-anchoring/` (designed 2026-10-05).
   Absorbs "measure against the fixed intent" and "two reads for one
   workspace" below. First trial (re-entry after the origin project's
-  ~3-month hiatus) completed 2026-10-06 with nine findings; graduates once
-  those are folded into the kit and written up as dated evidence.
+  ~3-month hiatus) completed 2026-10-06 with nine findings, folded into the
+  kit the same day; graduates once the revised kit has run once more (a
+  second re-entry, here or in another project) with dated evidence.
 - **Meta-layer regression net** — regression-test the *tools that change the
   product* (build tools, code generators, ticket machinery), not just the
   product. Premise: the product often has tests while the machinery that
