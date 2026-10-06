@@ -605,3 +605,11 @@ AGENTS.md rule 8 and specs/08 BP-9/BP-10 (commit after each change; push
 still only on the owner's word), and make preflight's verified_at check
 measure from the last commit that rewrote HANDOFF (else every commit would
 leave the handoff "stale"); commit that.
+
+## 2026-10-06T13:36+03:00 · claude-opus-5-5 · pi · new owner rule: commit after every change — OUTCOME
+OUTCOME: pending work committed first (f87931a). D-12 accepted (owner).
+AGENTS.md rule 8 and specs/08 BP-23: commit after every change, without
+asking; push stays the owner's act. Preflight measures HANDOFF freshness
+from the last commit that rewrote HANDOFF (BP-19 text amended), so
+commit-after-every-change doesn't make it permanently stale; 27 self-tests
+(2 new). HANDOFF FIRST ACT: "dirty tree" now signals an interrupted session.

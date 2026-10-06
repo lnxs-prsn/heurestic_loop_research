@@ -1,5 +1,5 @@
 # HANDOFF (BP-14, BP-18, BP-22) — rewritten each session end
-as_of: 2026-10-06T13:33+03:00
+as_of: 2026-10-06T13:36+03:00
 verified_at: 9fcfff4
 written_by: claude-opus-5-5 · pi
 pending_decisions: D-6, D-10
@@ -15,7 +15,8 @@ sitting, or unread outside material), take the gap branch in EXPECTED
 OPENING. Known oddities: hook warning and D-10 are one question; until
 2026-10-06T16:00, "dated in the future" and "HANDOFF as_of older than
 newest BUILDLOG" come from estimated journal times (BUILDLOG CORRECTION)
-and clear by themselves; "dirty tree" if this work is still uncommitted.
+and clear by themselves. "Dirty tree" should NOT appear: every change is
+committed as made (D-12); if it does, a session was interrupted.
 
 ### DONE
 - Owner re-entry after the Jul–Oct hiatus closed: intent kept, grown by
@@ -23,8 +24,8 @@ and clear by themselves; "dirty tree" if this work is still uncommitted.
 - Current intent INT-4 confirmed — coherence/intent.md, owner-log SIT-1;
   the confirmation was read from the owner's message, owner may object
 - Hiatus material I-1..I-5 processed; I-6 HELD by the owner — INDEX.md
-- Handoff system BP-15..BP-22 + owner-gap check, 25 self-tests — 10ee803 +
-  uncommitted; coherence kit revised with the nine trial findings —
+- Handoff system BP-15..BP-23 + owner-gap check, 27 self-tests — 10ee803,
+  f87931a; commit after every change (D-12); coherence kit revised with the nine trial findings —
   incubating/…/kit; revised kit untested, pattern proven once
 - Journal times from 2026-10-05T17:05 to 2026-10-06T16:00 are estimates,
   order correct — BUILDLOG CORRECTION entry

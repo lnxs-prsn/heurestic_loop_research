@@ -228,3 +228,22 @@ longer claims "done" without a commit (BP-4); preflight now gates stale
 links D-9 omitted. D-9 itself had BP-8, BP-9 and BP-14 missing from its
 `affects:` field, but it is not edited, because answered entries are
 append-only (BP-15).
+
+## D-12 — Commit after every change
+status: accepted
+date: 2026-10-06T13:35+03:00
+decided_by: owner
+supersedes: none
+superseded_by: none
+affects: BP-9, BP-10, BP-23, BP-19
+evidence: BUILDLOG@2026-10-06T13:35+03:00
+stage: none (process)
+impact: untouched
+why: keeps every change recorded while the project's own management structure is being changed
+
+Owner, 2026-10-06: "new rule change after updating handoff or any file
+commit, to avoid issues that might arise when we change project management
+structures." Agents commit after every change to any file, without asking.
+Push stays the owner's act (the unpushed range is the review queue).
+Supersedes in practice the earlier "owner commits" practice recorded in
+BUILDLOG entries of 2026-07-10 and 2026-10-05 (prose, not ledger entries).

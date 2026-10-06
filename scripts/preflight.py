@@ -403,10 +403,16 @@ def check_handoff(root: Path, records, rep: Report, now: datetime | None = None)
         rep.gate(f"{HANDOFF} verified_at {sha} is not a commit here",
                  "point verified_at at the commit the claims were checked against")
         return
-    _, out = git(root, "diff", "--name-only", sha, "HEAD", "--", "specs", "progress")
+    # BP-23: commits happen after every change, so the claims were last
+    # re-verified when HANDOFF itself was last committed, if that is later.
+    _, last = git(root, "log", "-1", "--format=%h", "--", HANDOFF)
+    base = last.strip() or sha
+    if last.strip() and git(root, "merge-base", "--is-ancestor", last.strip(), sha)[0] == 0:
+        base = sha
+    _, out = git(root, "diff", "--name-only", base, "HEAD", "--", "specs", "progress")
     changed = [l for l in out.splitlines() if l and l != HANDOFF]
     if changed:
-        rep.warn(f"committed since verified_at {sha}: {', '.join(changed)}",
+        rep.warn(f"committed since HANDOFF was last verified ({base}): {', '.join(changed)}",
                  "HANDOFF claims covering these files are void until re-verified (BP-14)")
 
 

@@ -150,8 +150,9 @@ moment to give records stable IDs and typed links is before there are many.
   parse, a reference does not resolve, a decision's fields are inconsistent.
   WARNS (exit 0): dirty tree (listing paths — BP-9 permits journaled dirty
   state), files unregistered under BP-20, HANDOFF `as_of` older than the
-  newest BUILDLOG entry, commits since `verified_at` touching specs/ or
-  progress/, pending `proposed` decisions, commit hook inactive. Also GATES:
+  newest BUILDLOG entry, commits touching specs/ or progress/ after the
+  last commit that rewrote HANDOFF (or after `verified_at` if HANDOFF was
+  never committed), pending `proposed` decisions, commit hook inactive. Also GATES:
   STATUS and HANDOFF each carry one `pending_decisions:` line (comma-
   separated `D-<n>`, or `none`), and it must equal the ledger's `proposed`
   set exactly. That catches both a stale "still pending" claim about an
@@ -203,6 +204,13 @@ moment to give records stable IDs and typed links is before there are many.
 - **BP-10** Small and frequent; each message references pass + requirement IDs
   (`P1.4: event logger (DM-13..16, INV-3)`). Git history is the third log.
   A power cut costs at most the current step.
+- **BP-23 — Commit after every change (owner rule, D-12).** Any change to any
+  file, HANDOFF included, is committed as soon as it is made, without
+  asking; work is never left only on disk, so a change to the project's own
+  management structure can't strand uncommitted state. Push stays an owner
+  act: the unpushed range is the review queue, and the push is the gate
+  (INV-10 review happens on that range). The BP-9 "journaled dirty state"
+  allowance is for interrupted sessions only.
 
 ## Flight recorder (INV-8)
 

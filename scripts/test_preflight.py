@@ -274,6 +274,24 @@ class PreflightTests(unittest.TestCase):
         _, warns, _ = self.run_at("2026-07-10T18:00+03:00")
         self.assertCaught(warns, "dated in the future: BUILDLOG@2026-07-10T20:00+03:00")
 
+    def git_commit(self, *paths):
+        g = ["git", "-C", str(self.fx.root), "-c", "user.name=t", "-c", "user.email=t@t"]
+        subprocess.run(g + ["add", *paths], check=True)
+        subprocess.run(g + ["commit", "-qm", "c"], check=True)
+
+    def test_change_after_handoff_commit_warns(self):
+        self.git_commit("progress/HANDOFF.md")
+        self.fx.append("progress/BUILDLOG.md", "\n## 2026-07-10T21:00+03:00 · a · pi · x\nx\n")
+        self.git_commit("progress/BUILDLOG.md")
+        _, warns = self.fx.run()
+        self.assertCaught(warns, "committed since HANDOFF was last verified")
+
+    def test_change_committed_with_handoff_is_fresh(self):
+        self.fx.append("progress/BUILDLOG.md", "\n## 2026-07-10T21:00+03:00 · a · pi · x\nx\n")
+        self.git_commit("progress/HANDOFF.md", "progress/BUILDLOG.md")
+        _, warns = self.fx.run()
+        self.assertFalse(any("committed since HANDOFF" in w for w in warns))
+
     def test_export_has_typed_edges(self):
         _, records = preflight.run(self.fx.root)
         edges = preflight.export(records)["edges"]

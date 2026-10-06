@@ -21,7 +21,8 @@ only point here.
 7. Found a stale or false claim anywhere? Record it in HANDOFF, even if you
    changed nothing else (BP-18).
 8. Git: explicit staging only (`git add <paths>`, never `-A`/`.`/`commit -a`);
-   commit format per BP-10; commit/push only when the owner says so.
+   commit format per BP-10. COMMIT AFTER EVERY CHANGE to any file, handoff
+   included, without asking (D-12). Push only when the owner says so.
 9. End ritual per BP-9, finishing with preflight green.
 
 **Human coherence (`coherence/`; rules in
