@@ -1,6 +1,6 @@
 # HANDOFF (BP-14, BP-18) — rewritten each session end
 as_of: 2026-10-06T15:00+03:00
-verified_at: 3bbbe36
+verified_at: 6101bc4
 written_by: claude-opus-5-5 · pi
 pending_decisions: D-6, D-10
 
