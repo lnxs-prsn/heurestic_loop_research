@@ -255,7 +255,7 @@ received: 2026-10-06
 source: owner, notes from Stephen Bungay's book *The Art of Action* adapted to agentic workflows (another conversation; the agentic mappings are the writer's adaptation, the book does not discuss agents)
 file: insights_from_other_conversations/bungay_art_of_action_book_insights copy.md
 affects: none
-evidence: BUILDLOG@2026-10-06T15:00+03:00
+evidence: BUILDLOG@2026-10-06T15:01+03:00
 stages: ST-3, ST-4
 impact: route-only
 
